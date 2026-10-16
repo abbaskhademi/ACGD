@@ -1,23 +1,6 @@
 # ==========================================================================
 # matrix_balancing  Frank-Wolfe: all 6 methods x N seeds -> combined performance profile
 # ==========================================================================
-# "Solved" = EITHER of the method's own convergence criteria fires:
-#     (a) FW gap <= epsilon                    (gap <= epsilon)
-#     (b) objective is within epsilon of the TRUE optimum
-#         (current_f - fstar <= epsilon), where fstar = prob.optimal_value
-#         (NOT 0 — the unconstrained/attained optimum of this problem is
-#         sum(A), achieved when x is constant, since A is symmetric).
-# This is NOT an artificial max_iter cutoff.
-#
-# Every solver's inner loop is `while true` (no max_iter bound). A safety
-# net (max_iter_cap / max_time) prevents a genuine infinite loop on a run
-# that never satisfies epsilon — hitting it does NOT count as solving
-# (time = Inf, excluded from the profile at that point).
-#
-# The final plot is a true Dolan-Moré performance profile (ratio-based
-# x-axis), built with BenchmarkProfiles.jl. See:
-# https://tmigot.github.io/posts/2024/06/teaching/
-# ==========================================================================
 
 using LinearAlgebra
 using Statistics
