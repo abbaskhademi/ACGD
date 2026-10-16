@@ -2,7 +2,6 @@
 # Collaborative filtering (MovieLens 100k, Huber loss, nuclear-norm ball)
 # L_k-history plot for the 3 backtracking methods only:
 #   Adaptive constant, Adaptive adjustable, Pure backtracking
-# Stopping: FW gap <= epsilon  OR  iteration cap (f* is unknown here)
 # ==========================================================================
 
 using DataFrames, CSV, Downloads
