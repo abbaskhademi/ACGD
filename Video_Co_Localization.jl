@@ -2,7 +2,6 @@
 # Video Co-Localization (aeroplane_data_small.mat, quadratic over a
 # product of 33 simplices). L_k-history plot for the 3 backtracking methods:
 #   Adaptive constant, Adaptive adjustable, Pure backtracking
-# Stopping: FW gap <= epsilon  OR  iteration cap (f* is unknown here)
 # ==========================================================================
 
 using LinearAlgebra, Statistics, Random, Downloads
