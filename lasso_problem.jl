@@ -1,25 +1,6 @@
 # ==========================================================================
 # Lasso Frank-Wolfe: all 6 methods x N seeds -> combined performance profile
 # ==========================================================================
-# "Solved" = EITHER of the method's own convergence criteria fires:
-#     (a) FW gap <= epsilon                    (gap <= epsilon)
-#     (b) objective is within epsilon of the TRUE optimum
-#         (current_f - fstar <= epsilon), where fstar = 0 because
-#         b = A*x_star exactly and ||x_star||_1 = 0.9*tau < tau, so x_star
-#         is strictly feasible and f(x_star) = 0 is attained.
-#or (f(x^k) - fstar) / max{f(x^0) - fstar, 1} <= epsilon
-# This is NOT an artificial max_iter cutoff.
-#
-# Every solver's inner loop is `while true` (no max_iter bound). A safety
-# net (max_iter_cap / max_time) prevents a genuine infinite loop on a run
-# that never satisfies epsilon — hitting it does NOT count as solving
-# (time = Inf, excluded from the profile at that point).
-#
-# The final plot is a true Dolan-Moré performance profile (ratio-based
-# x-axis), built with BenchmarkProfiles.jl. See:
-# https://tmigot.github.io/posts/2024/06/teaching/
-# ==========================================================================
-
 using LinearAlgebra
 using Statistics
 using Random
