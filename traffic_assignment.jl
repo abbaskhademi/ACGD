@@ -1,48 +1,5 @@
 # ==========================================================================
-# Traffic Assignment (Beckmann formulation) Frank-Wolfe benchmark:
-#   6 step-size strategies x N seeds -> combined Dolan-Moré performance profile
-# ==========================================================================
-# Formulation (Beckmann):
-#   min_x  sum_a int_0^{x_a} t_a(xi) dxi
-#   s.t.   x_a = sum_r delta_ar y_r ,  a in A
-#          sum_{r in R_ij} y_r = d_ij ,  (i,j) in S
-#          y_r >= 0
-#
-#   BPR travel-time:  t_a(x_a) = tau_a * (1 + 0.15*(x_a/c_a)^4),  tau_a = 1
-#
-#   A linear minimization over the route-flow polytope (equivalently over
-#   the feasible link-flow set induced by it) is exactly an all-pairs
-#   shortest-route computation -> Dijkstra's algorithm from every source
-#   that appears in an OD pair, using the current link "cost" (gradient) as
-#   edge weight. This is the LMO used by every Frank-Wolfe variant below.
-#
-# Instance generation (per seed):
-#   - DAG with n=20 layers of m=25 nodes each (mn=500 nodes), edges only
-#     between consecutive layers, each with probability p=0.5
-#     (|A| ~ 6000 as in the problem statement).
-#   - OD pairs S = all reachable node pairs in the DAG (|S| ~ 113000).
-#   - Demand d_ij ~ Uniform(0,1) for every (i,j) in S, as in
-#     Combettes & Pokutta, "Boosting Frank-Wolfe by chasing gradients", 2020.
-#
-# "Solved" criterion (identical philosophy as in the Lasso benchmark):
-#     (a) FW gap <= epsilon                      (gap <= epsilon)
-#  OR (b) f(x^k) - fstar <= epsilon
-# Here fstar is NOT known exactly (unlike the Lasso instance). Since every
-# term x_a + 0.03*x_a^5/c^4 is nonnegative for x_a >= 0, f(x) >= 0 for every
-# feasible x, so fstar = 0.0 is a valid (if generally loose) lower bound.
-# Criterion (a) is therefore the one that effectively drives convergence
-# in practice; criterion (b) is kept only for consistency with the same
-# generic solvers used in the Lasso benchmark.
-#
-# All six solvers below are the exact generic Frank-Wolfe step-size
-# strategies from the Lasso benchmark (they only use f, grad_f, lmo, x0),
-# reused unchanged. A safety net (max_iter_cap / max_time) prevents a
-# genuine infinite loop; hitting it does NOT count as solving
-# (time = Inf, excluded from the profile at that instance).
-#
-# The final plot is a true Dolan-Moré performance profile (ratio-based
-# x-axis), built with BenchmarkProfiles.jl. See:
-# https://tmigot.github.io/posts/2024/06/teaching/
+# Traffic Assignment 
 # ==========================================================================
 
 using LinearAlgebra
