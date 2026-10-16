@@ -1,32 +1,5 @@
 # ==========================================================================
-# Matrix Factorization Frank-Wolfe: all 6 methods x N seeds -> combined
-# performance profile
-# ==========================================================================
-# "Solved" = EITHER of the method's own convergence criteria fires:
-#     (a) FW gap <= epsilon
-#     (b) objective within epsilon of the TRUE optimum
-#         (current_f - fstar <= epsilon), where fstar = 0 because
-#         Y = U_star * V_star' exactly and tau1 = ceil(opnorm(U_star)),
-#         tau2 = ceil(opnorm(V_star)) make (U_star, V_star) FEASIBLE for
-#         the spectral-norm balls, so f(U_star, V_star) = 0 is attained.
-# This is NOT an artificial max_iter cutoff.
-#
-# NOTE (nonconvexity): f(U,V) = 0.5||U V' - Y||^2 is bilinear, hence
-# nonconvex. The FW gap is therefore only a STATIONARITY measure and does
-# NOT bound f - fstar from above (unlike the convex Lasso case, where
-# gap >= f - fstar). Criteria (a) and (b) are genuinely unordered here: a
-# run can stop at a stationary/boundary point with a tiny gap while f is
-# still far from 0. `final_gap` and `final_value` are both logged below so
-# these two exit modes can be told apart per seed.
-#
-# Every solver's inner loop is `while true` (no hard max_iter bound). A
-# safety net (max_iter_cap / max_time) prevents a genuine infinite loop on
-# a run that never satisfies epsilon -- hitting it does NOT count as
-# solving (time = Inf, excluded from the profile at that point).
-#
-# The final plot is a true Dolan-Moré performance profile (ratio-based
-# x-axis), built with BenchmarkProfiles.jl. See:
-# https://tmigot.github.io/posts/2024/06/teaching/
+# Matrix Factorization
 # ==========================================================================
 
 using LinearAlgebra
