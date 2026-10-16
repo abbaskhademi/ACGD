@@ -1,37 +1,6 @@
 # ==========================================================================
 # least_squares Frank-Wolfe: all 5 methods x N seeds -> combined performance profile
 # ==========================================================================
-# "Solved" = EITHER of the method's own convergence criteria fires:
-#     (a) gradient norm <= epsilon             (grad_norm <= epsilon)
-#     (b) objective is within epsilon of the TRUE optimum
-#         (current_f - fstar <= epsilon), where fstar = prob.optimal_value
-#         (the unconstrained least-squares optimum, obtained from x_ls = A \ b,
-#         NOT 0 -- the data b contains additive noise, so the attained
-#         minimum of ||Ax-b||^2 is strictly positive).
-# This is NOT an artificial max_iter cutoff.
-#
-# Every solver's inner loop is `while true` (no max_iter bound). A safety
-# net (max_iter_cap / max_time) prevents a genuine infinite loop on a run
-# that never satisfies epsilon -- hitting it does NOT count as solving
-# (time = Inf, excluded from the profile at that point).
-#
-# Since the problem is UNCONSTRAINED and the LMO returns a vector on the
-# unit L2-ball (rho = 1), we have the exact identity
-#     ||x^k - x^{k-1}|| = ||t_{k-1} v^{k-1}|| = t_{k-1} * rho = t_{k-1}
-# so the "Auto-conditioned" realized-Lipschitz estimate uses
-#     norms2 = t_k^2 * rho^2
-# in closed form instead of recomputing norm(x_new - x_curr) numerically.
-#
-# NOTE on logging: for this problem the stationarity measure stored in
-# `gaps` is the GRADIENT NORM (not a Frank-Wolfe gap). The .mat field name
-# is kept as "gaps" so the same downstream MATLAB/plot scripts used for
-# matrix_balancing keep working unchanged.
-#
-# The final plot is a true Dolan-Moré performance profile (ratio-based
-# x-axis), built with BenchmarkProfiles.jl. See:
-# https://tmigot.github.io/posts/2024/06/teaching/
-# ==========================================================================
-
 using LinearAlgebra
 using Statistics
 using Random
@@ -56,10 +25,6 @@ matvarname(s) = replace(s, r"[^A-Za-z0-9_]" => "_")
 # --------------------------------------------------------------------
 # 1. Problem generator — one seed -> one independent least_squares instance
 # --------------------------------------------------------------------
-# NOTE: original sizes were m=20000, n=1000 which is far too heavy to
-# repeat over many seeds x 5 solvers. Defaults below are lighter but the
-# structure (ill-conditioning, sparse ground truth, noise) is identical.
-# Bump m/n back up if you have the compute budget.
 function generate_problem(seed; m=2000, n=200, cond_num=50.0, k_star=10, noise_level=1e-2)
     Random.seed!(seed)
 
