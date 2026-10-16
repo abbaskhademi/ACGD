@@ -1,11 +1,5 @@
 # ==========================================================================
 # Non-Convex StQP over the Simplex: Frank-Wolfe (6 methods) x N seeds
-# -> combined performance profile + per-iteration histories
-# ==========================================================================
-# "Solved" = Frank-Wolfe gap <= epsilon
-#     (gap = -dot(grad_f(x), v - x) <= epsilon)
-# Standard, fstar-free stopping criterion for non-convex FW (StQP is
-# NP-hard in general; the true global optimum is not tracked here).
 # ==========================================================================
 
 using LinearAlgebra, Statistics, Random
