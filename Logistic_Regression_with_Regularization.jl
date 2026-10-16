@@ -1,9 +1,6 @@
 # ==========================================================================
 # Logistic_Regression_with_Regularization Frank-Wolfe: all 5 methods x N seeds -> combined performance profile
 # ==========================================================================
-# "Solved" = EITHER of the method's own convergence criteria fires:
-#     (a) gradient norm <= epsilon             (grad_norm <= epsilon)
-# ==========================================================================
 
 using LinearAlgebra      # norm, dot, opnorm
 using Statistics         # mean, median
