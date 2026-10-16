@@ -1,15 +1,5 @@
 # ==========================================================================
 # Power-regularized quadratic f(x) = (xᵀQx + c)^p:
-#   all 6 methods x N seeds -> combined performance profile
-# ==========================================================================
-# Problem instance (one per seed):
-#   Q = RᵀR  with R ~ N(0,1)^{n×n}  (positive definite almost surely),
-#   p ~ U(0.05, 0.45)  ⊂ (0, 1/2)   (bounded away from 0 so η = 2p > 0),
-#   c ~ U(0.10, 1.00)               (bounded away from 0 so L_est stays finite).
-# The minimizer is x* = 0 with optimal value f* = c^p, known in CLOSED FORM.
-#
-# "Solved" = the objective reaches the true optimum within epsilon:
-#     current_f - fstar <= epsilon,   fstar = c^p.
 # ==========================================================================
 
 using LinearAlgebra
