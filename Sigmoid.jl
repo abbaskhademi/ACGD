@@ -1,13 +1,5 @@
 # ==========================================================================
 # Non-Convex Frank-Wolfe: w8a Dataset (Squared Sigmoid Loss)
-# All 6 methods x N seeds -> combined performance profile
-# ==========================================================================
-# "Solved" = Frank-Wolfe gap <= epsilon. 
-# NOTE: The (current_f - fstar) <= epsilon check is DISABLED (commented out) 
-# because the true global optimum is unknown for non-convex problems.
-#
-# Every solver's inner loop is `while true` (no max_iter bound in the condition). 
-# A safety net (max_iter_cap) prevents genuine infinite loops.
 # ==========================================================================
 
 using Random, LinearAlgebra, Statistics, SparseArrays
