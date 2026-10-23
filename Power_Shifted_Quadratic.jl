@@ -10,21 +10,23 @@ using Measures
 using PyPlot
 using MAT
 using SparseArrays
-using BenchmarkProfiles
+using SHA
 
 pyplot()
 PyPlot.PyCall.pyimport("warnings").filterwarnings("ignore")
 
 # --- output goes into <run dir>/power_quadratic/ -----------------------
 problem_name = "power_quadratic"
-output_dir   = joinpath(@__DIR__, problem_name)
+output_dir = joinpath(get(ENV, "ACGD_OUTPUT_ROOT", joinpath(@__DIR__, "corrected_results")), problem_name)
 mkpath(output_dir)
+instance_dir = joinpath(output_dir, "instances")
+mkpath(instance_dir)
 
 # sanitize method names into valid .mat struct field names
 matvarname(s) = replace(s, r"[^A-Za-z0-9_]" => "_")
 
 # --------------------------------------------------------------------
-# 1. Problem generator 
+# 1. Problem generator
 # --------------------------------------------------------------------
 function generate_problem(seed, n)
     Random.seed!(seed)
@@ -38,7 +40,7 @@ function generate_problem(seed, n)
 
     # --- the function AND its gradient ---
     f(x)      = (dot(x, Q, x) + c)^p
-    grad_f(x) = 2 * p * (dot(x, Q, x) + c)^(p - 1) .* (Q * x)   
+    grad_f(x) = 2 * p * (dot(x, Q, x) + c)^(p - 1) .* (Q * x)
 
     # --- theoretical constants ---
     λmax       = eigmax(Symmetric(Q))
@@ -47,7 +49,7 @@ function generate_problem(seed, n)
     fstar      = c^p
     println("  p=$(round(p, digits=3))  c=$(round(c, digits=3))  " *
             "L=$(round(estimate_L, digits=4))  fstar=$(round(fstar, digits=4))")
-    
+
 
     rho = 1.0
     function lmo(g)
@@ -57,378 +59,95 @@ function generate_problem(seed, n)
 
     x0 = rand(n)
 
-    return (f=f, grad_f=grad_f, lmo=lmo, x0=x0, rho=rho,
+    return (f=f, grad_f=grad_f, lmo=lmo, x0=x0, rho=rho, Q=Q, p=p, c=c, n=n,
             seed=seed, optimal_value=fstar, L_estimate=estimate_L)
 end
 
 
-# --------------------------------------------------------------------
-# 2. Solvers 
-#    grad_norm <= epsilon  OR  current_f - fstar <= epsilon.
-# --------------------------------------------------------------------
+# Shared solver implementation: full solver elapsed time includes initialization,
+# curvature probes, stopping checks and in-memory history. Data/I/O stay outside.
+if !isdefined(@__MODULE__, :ACGDSolvers)
+    include(joinpath(@__DIR__, "src", "ACGDSolvers.jl"))
+end
+if !isdefined(@__MODULE__, :ACGDBenchmarkSupport)
+    include(joinpath(@__DIR__, "scripts", "benchmark_support.jl"))
+end
+using .ACGDBenchmarkSupport
+
 function conditional_gradient_adaptive(f, grad_f, lmo, x0, rho, gamma;
-        epsilon=1e-5, delta=1e-10, beta=2, max_iter_cap=100000, max_time=500.0,
-        fstar=0.0)
-    x_prev = copy(x0); x_curr = copy(x0)
-    values = [f(x_curr)]; times = [0.0]; gaps = Float64[]; L_ks = Float64[]
-    k = 0; solved = false; prev_t_k = 0.0
-    prev_grad = grad_f(x_prev); current_f = f(x_curr)
-    t_start_total = time()
-
-    while true
-        start = time()
-        current_grad = grad_f(x_curr)
-        v = lmo(current_grad)
-        grad_norm = norm(current_grad)
-
-        if k == 0
-            Random.seed!(23)
-            d0 = randn(length(x0))
-            L_k = gamma * ((norm(grad_f(x0) - grad_f(x0 + 1e-3 * d0)) / (1e-3 * norm(d0))) + delta)
-        else
-            grad_diff = norm(current_grad - prev_grad)
-            L_k = gamma * (grad_diff / (rho * prev_t_k) + delta)
-        end
-
-        t_k = grad_norm / (rho * L_k)
-        while true
-            x_new = x_curr + t_k * v
-            new_f = f(x_new)
-            if current_f - new_f >= rho * t_k * grad_norm - (L_k / 2) * t_k^2 * rho^2
-                x_prev = copy(x_curr); x_curr = x_new
-                break
-            else
-                L_k *= beta
-                t_k = grad_norm / (rho * L_k)
-            end
-        end
-
-        k += 1
-        push!(times, time() - start)
-        current_f = f(x_curr); prev_grad = current_grad; prev_t_k = t_k
-        push!(gaps, grad_norm); push!(values, current_f); push!(L_ks, L_k)
-        if (current_f - fstar) <= epsilon
-            solved = true
-            break
-        end
-        if k >= max_iter_cap # || (time() - t_start_total) > max_time
-            solved = false
-            break
-        end
-    end
-    return (x=x_curr, values=values, times=times, gaps=gaps, L_ks=L_ks,
-            k=k, solved=solved, total_time=sum(times))
+        epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        max_time=Inf, fstar=0.0, kwargs...)
+    isfinite(rho) && rho > 0 || throw(ArgumentError("rho must be finite and positive"))
+    r = ACGDSolvers.solve(f, grad_f, lmo, x0;
+        method=:adaptive, constrained=false, stop_rule=:objective,
+        epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, gamma=gamma, kwargs...)
+    return r
 end
 
 function conditional_gradient_adjustable_scaling(f, grad_f, lmo, x0, rho, gamma;
-        epsilon=1e-5, delta=1e-10, beta=2, max_iter_cap=100000, max_time=500.0,
-        fstar=0.0)
-    x_prev = copy(x0); x_curr = copy(x0)
-    values = [f(x_curr)]; times = [0.0]; gaps = Float64[]; L_ks = Float64[]
-    gamma_history = [gamma]
-    k = 0; solved = false; prev_t_k = 0.0
-    prev_grad = grad_f(x_prev); current_f = f(x_curr)
-    recent_backtracks = Int[]
-    t_start_total = time()
-
-    while true
-        start = time()
-        current_grad = grad_f(x_curr)
-        v = lmo(current_grad)
-        grad_norm = norm(current_grad)
-
-        if k == 0
-            Random.seed!(23)
-            d0 = randn(length(x0))
-            L_k = gamma * ((norm(grad_f(x0) - grad_f(x0 + 1e-3 * d0)) / (1e-3 * norm(d0))) + delta)
-        else
-            grad_diff = norm(current_grad - prev_grad)
-            L_k = gamma * (grad_diff / (rho * prev_t_k) + delta)
-        end
-
-        t_k = grad_norm / (rho * L_k)
-        i = 0
-        while true
-            x_new = x_curr + t_k * v
-            new_f = f(x_new)
-            if current_f - new_f >= rho * t_k * grad_norm - (L_k / 2) * t_k^2 * rho^2
-                x_prev = copy(x_curr); x_curr = x_new
-                push!(recent_backtracks, i)
-                break
-            else
-                L_k *= beta
-                t_k = grad_norm / (rho * L_k)
-                i += 1
-            end
-        end
-
-        if k % 10 == 0 && k > 0
-            total_backtracks = sum(recent_backtracks)
-            if total_backtracks == 0
-                gamma =  gamma * 0.9  # Decrease gamma, with a lower bound
-             #   println(">> k $k: No backtracking, >> reducing gamma to $(round(gamma, digits=4))")
-            elseif total_backtracks > 10
-                gamma =min(1,gamma * 1.1)  # Increase gamma, with an upper bound
-            #    println("<< k $k: ($total_backtracks) backtracking, << increasing gamma to $(round(gamma, digits=4))")
-            end
-            #push!(gamma_history, gamma)
-            recent_backtracks = Int[]  # Reset for the next 10 iterations
-        elseif k % 10 == 0
-            #push!(gamma_history, gamma)
-            recent_backtracks = Int[]
-        else
-            push!(recent_backtracks, i)
-        end
-        k += 1
-        push!(times, time() - start)
-        current_f = f(x_curr); prev_grad = current_grad; prev_t_k = t_k
-        push!(gaps, grad_norm); push!(values, current_f); push!(L_ks, L_k)
-        if (current_f - fstar) <= epsilon
-            solved = true
-            break
-        end
-        if k >= max_iter_cap # || (time() - t_start_total) > max_time
-            solved = false
-            break
-        end
-
-    end
-    return (x=x_curr, values=values, times=times, gaps=gaps, L_ks=L_ks,
-            gamma_history=gamma_history, k=k, solved=solved, total_time=sum(times))
+        epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        max_time=Inf, fstar=0.0, kwargs...)
+    isfinite(rho) && rho > 0 || throw(ArgumentError("rho must be finite and positive"))
+    r = ACGDSolvers.solve(f, grad_f, lmo, x0;
+        method=:adjustable, constrained=false, stop_rule=:objective,
+        epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, gamma=gamma, kwargs...)
+    return r
 end
 
-# --------------------------------------------------------------------
-# Same fix as in matrix_balancing: `f_new` is pre-declared *before* the
-# inner backtracking `while` loop so it survives past it, and the
-# post-step objective is what gets logged.
-# --------------------------------------------------------------------
 function conditional_gradient_pure_backtracking(f, grad_f, lmo, x0, rho;
-        epsilon=1e-5, max_iter_cap=100000, max_time=500.0, fstar=0.0)
-    x_prev = copy(x0)
-    values = [f(x_prev)]; times = [0.0]; gaps = Float64[]; L_ks = Float64[]
-    k = 0; solved = false
-    tau_bt = 2.0; eta = 0.9
-    t_start_total = time()
-
-    Random.seed!(23)
-    d0 = randn(length(x0))
-    L_minus1 = norm(grad_f(x0) - grad_f(x0 + 1e-3 * d0)) / (1e-3 * norm(d0))
-    M = L_minus1 * eta
-
-    f_prev = f(x_prev)                 # carried, not recomputed each sweep
-    while true
-        start = time()
-        grad = grad_f(x_prev)
-        v = lmo(grad)
-        grad_norm = norm(grad)
-
-        t_k = grad_norm / (M * rho)
-        x_new = x_prev
-        f_new = f_prev                 # pre-declared so it survives the inner loop
-        while true
-            x_new = x_prev + t_k * v
-            f_new = f(x_new)
-            if f_prev - f_new >= rho * t_k * grad_norm - (M / 2) * t_k^2 * rho^2
-                break
-            else
-                M *= tau_bt
-                t_k = grad_norm / (M * rho)
-            end
-        end
-
-        x_prev = x_new
-        f_prev = f_new                 # no extra f evaluation
-        k += 1
-        push!(L_ks, M)
-        M = M * eta
-        push!(times, time() - start)
-        push!(gaps, grad_norm); push!(values, f_prev); 
-        
-        if (f_prev - fstar) <= epsilon
-            solved = true
-            break
-        end
-        if k >= max_iter_cap # || (time() - t_start_total) > max_time
-            solved = false
-            break
-        end
-    end
-    return (x=x_prev, values=values, times=times, gaps=gaps, L_ks=L_ks,
-            k=k, solved=solved, total_time=sum(times))
+        epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        max_time=Inf, fstar=0.0, kwargs...)
+    isfinite(rho) && rho > 0 || throw(ArgumentError("rho must be finite and positive"))
+    r = ACGDSolvers.solve(f, grad_f, lmo, x0;
+        method=:backtracking, constrained=false, stop_rule=:objective,
+        epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, kwargs...)
+    return r
 end
 
 function conditional_gradient_short_step(f, grad_f, lmo, x0, rho, L;
-        epsilon=1e-5, max_iter_cap=100000, max_time=500.0, fstar=0.0)
-    x_curr = copy(x0)
-    values = [f(x_curr)]; times = [0.0]; gaps = Float64[]; L_ks = Float64[]
-    k = 0; solved = false
-    current_f = f(x_curr)
-
-    while true
-        start = time()
-        current_grad = grad_f(x_curr)
-        v = lmo(current_grad)
-        grad_norm = norm(current_grad)
-
-        t_k = grad_norm / (rho * L)
-        x_curr = x_curr + t_k * v
-        k += 1
-        push!(times, time() - start)
-        current_f = f(x_curr)
-        push!(gaps, grad_norm); push!(values, current_f); push!(L_ks, L)
-        if (current_f - fstar) <= epsilon
-            solved = true
-            break
-        end
-        if k >= max_iter_cap
-            solved = false
-            break
-        end
-    end
-    return (x=x_curr, values=values, times=times, gaps=gaps, L_ks=L_ks,
-            k=k, solved=solved, total_time=sum(times))
+        epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        max_time=Inf, fstar=0.0, kwargs...)
+    isfinite(rho) && rho > 0 || throw(ArgumentError("rho must be finite and positive"))
+    r = ACGDSolvers.solve(f, grad_f, lmo, x0;
+        method=:short, constrained=false, stop_rule=:objective,
+        epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, L=L, kwargs...)
+    return r
 end
 
-
 function conditional_gradient_auto_conditioned(f, grad_f, lmo, x0, rho;
-        epsilon=1e-5, delta=1e-10, max_iter_cap=100000, max_time=500.0,
-        fstar=0.0)
-    x_curr = copy(x0)
-    values = [f(x_curr)]; times = [0.0]; gaps = Float64[]; L_ks = Float64[]
-    L_history = Float64[]
-    k = 0; solved = false
-    t_start_total = time()
-
-    Random.seed!(23)
-    d0 = randn(length(x0))
-    L0 = (norm(grad_f(x0) - grad_f(x0 + 1e-3 * d0)) / (1e-3 * norm(d0))) + delta
-    push!(L_history, L0)
-
-    current_f = f(x_curr)
-    while true
-        start = time()
-        current_grad = grad_f(x_curr)
-        v = lmo(current_grad)
-        grad_norm = norm(current_grad)
-
-        hat_L_k = maximum(L_history)
-        t_k = grad_norm / (rho * hat_L_k)
-        x_new = x_curr + t_k * v
-        new_f = f(x_new)
-
-        # Unconstrained + unit-ball LMO (rho=1) => exact closed form,
-        # no need to recompute norm(x_new - x_curr) numerically:
-        #   ||x_new - x_curr|| = ||t_k * v|| = t_k * rho
-        norms2 = t_k^2 * rho^2
-        if norms2 > 0
-            L_k_realized = 2 * (new_f - current_f - dot(current_grad, t_k * v)) / norms2
-            push!(L_history, L_k_realized)
-        else
-            push!(L_history, hat_L_k)
-        end
-
-        x_curr = x_new
-        k += 1
-        push!(times, time() - start)
-        current_f = new_f
-        push!(gaps, grad_norm); push!(values, current_f); push!(L_ks, hat_L_k)
-        if  (current_f - fstar) <= epsilon
-            solved = true
-            break
-        end
-        if k >= max_iter_cap # || (time() - t_start_total) > max_time
-            solved = false
-            break
-        end
-
-    end
-    return (x=x_curr, values=values, times=times, gaps=gaps, L_ks=L_ks,
-            k=k, solved=solved, total_time=sum(times))
+        epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        max_time=Inf, fstar=0.0, kwargs...)
+    isfinite(rho) && rho > 0 || throw(ArgumentError("rho must be finite and positive"))
+    r = ACGDSolvers.solve(f, grad_f, lmo, x0;
+        method=:auto, constrained=false, stop_rule=:objective,
+        epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, kwargs...)
+    return r
 end
 
 function adabb(f, grad_f, x0, alpha0;
-        epsilon=1e-5, max_iter_cap=100000, max_time=500.0, fstar=0.0)
-    x_prev = copy(x0)
-    grad_prev = grad_f(x_prev)
-    gap = norm(grad_prev)
-    x = x_prev - alpha0 * grad_prev
-
-    grad_curr = grad_f(x)
-    s_1 = x - x_prev; y_1 = grad_curr - grad_prev
-    lambda_1 = dot(y_1, s_1) / dot(y_1, y_1)
-    
-    # Compute theta_0 based on lambda_1
-    if lambda_1 >= sqrt(2) * alpha0
-        theta0=lambda_1^2 / (2 * alpha0^2) - 1.0
-    else
-        theta0 = 0.0
-    end
-
-    alpha_km1 = alpha0; theta_km1 = theta0
-    values = [f(x_prev), f(x)]; times = [0.0]; gaps = Float64[]
-    k = 1; solved = false
-    t_start_total = time()
-
-    while true
-        start = time()
-        if k > 1
-            grad_curr = grad_f(x)
-        end
-
-        s_k = x - x_prev             # x^k - x^{k-1}
-        y_k = grad_curr - grad_prev  # grad f(x^k) - grad f(x^{k-1})
-        # Compute lambda_k (BB step size)
-        lambda_k = dot(y_k, s_k) / dot(y_k, y_k)
-
-        # Adaptive step-size selection
-        if lambda_k >= alpha_km1
-            alpha_k = sqrt(1 + theta_km1) * alpha_km1
-            theta_k = alpha_k / alpha_km1
-        elseif alpha_km1 / 2 < lambda_k < alpha_km1
-            # Case (i)
-            alpha_k = lambda_k
-            theta_k = 2 * alpha_k / alpha_km1 - alpha_k / lambda_k
-        else
-            # Case (iii)
-            alpha_k = lambda_k / sqrt(2)
-            theta_k = alpha_k / alpha_km1
-        end
-        if k==1
-            theta_k=1.0
-        end
-        # Update iterates
-        x_prev = copy(x)
-        grad_prev = copy(grad_curr)
-        x = x - alpha_k * grad_curr
-        k += 1
-        # Update for next iteration
-        alpha_km1 = alpha_k
-        theta_km1 = theta_k
-        push!(times, time() - start)
-        f_new = f(x); gap = norm(grad_prev)
-        push!(gaps, gap); push!(values, f_new)
-        if  (f_new - fstar) <= epsilon
-            solved = true
-            break
-        end
-        if k >= max_iter_cap # || (time() - t_start_total) > max_time
-            solved = false
-            break
-        end
-    end
-    return (x=x, values=values, times=times, gaps=gaps,
-            k=k, solved=solved, total_time=sum(times))
+        epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        max_time=Inf, fstar=0.0, kwargs...)
+    r = ACGDSolvers.solve(f, grad_f, nothing, x0;
+        method=:adabb, constrained=false, stop_rule=:objective,
+        epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, alpha0=alpha0, kwargs...)
+    return r
 end
+
+if get(ENV, "ACGD_RUN_BENCHMARKS", "true") == "true"
 
 # --------------------------------------------------------------------
 # 3. Run all methods on each of the N seeded problems
 # --------------------------------------------------------------------
 println("\n================ Power Shifted Quadratic ================")
-seeds = 1:100
+seeds = 1:parse(Int, get(ENV, "ACGD_SEED_COUNT", "100"))
+isempty(seeds) && throw(ArgumentError("ACGD_SEED_COUNT must be at least one"))
 n     = 100          # instance dimension, passed explicitly to the generator
 
 gamma0 = 1/4
 alpha0 = 1e-10
+warmups = parse(Int, get(ENV, "ACGD_WARMUPS", "2"))
+repeats = parse(Int, get(ENV, "ACGD_REPEATS", "6"))
+order_seed = 20261021
 
 method_order = ["Adaptive constant", "Adaptive adjustable", "Pure backtracking",
                 "Auto-conditioned", "Short-step", "AdaBB"]
@@ -439,26 +158,60 @@ all_solved = Dict(name => falses(length(seeds)) for name in method_order)
 per_iter     = Dict(name => Dict{String,Any}() for name in method_order)
 report_lines = String[]
 
+write_run_manifest(joinpath(output_dir, "run_manifest.toml"), Dict(
+    "problem" => problem_name, "script" => basename(@__FILE__),
+    "stop_rule" => "objective", "epsilon" => 1e-5,
+    "max_iter_cap" => parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")), "max_time" => Inf,
+    "alpha0" => alpha0,
+    "dimension" => n, "p_range" => [0.05, 0.45], "c_range" => [0.1, 1.0],
+    "gamma" => gamma0, "beta" => 2.0, "eta" => 0.9, "block_size" => 10,
+    "probe_seed" => 23, "delta" => 1e-10,
+    "generator_rng" => "original Julia default RNG explicitly reseeded per instance; see pinned Julia version",
+    "method_order" => method_order,
+    "execution_base_order" => ["AdaBB", "Auto-conditioned", "Adaptive constant",
+        "Adaptive adjustable", "Pure backtracking", "Short-step"],
+    "execution_order" => "balanced Williams design; actual schedules saved per instance",
+    "order_mode" => "balanced", "order_seed" => order_seed,
+    "timing_boundary" => "external public solver call; core time also recorded",
+    "gc_before_call" => true,
+    "smoothness_preprocessing" => "problem constants computed before solver timing",
+    "feasibility_scope" => "representative repeat checked outside solver timing",
+    "run_controls" => Dict(name => get(ENV, name, default) for (name, default) in
+        [("ACGD_OUTPUT_ROOT", joinpath(@__DIR__, "corrected_results")),
+         ("ACGD_SEED_COUNT", "100"), ("ACGD_MAX_ITER", "100000"),
+         ("ACGD_TRACE_ITER", "500"), ("ACGD_WARMUPS", "2"), ("ACGD_REPEATS", "6")]),
+    "warmups" => warmups,
+    "repeats" => repeats,
+    "seeds" => collect(seeds),
+    "aggregation" => "median complete solver elapsed time; all repeats must solve",
+); root=@__DIR__)
+
 for (idx, s) in enumerate(seeds)
     println("\n================ instance = $idx | seed = $s ================")
-    prob  = generate_problem(s, n)     
-    L_est = prob.L_estimate           
+    prob  = generate_problem(s, n)
+    L_est = prob.L_estimate
     fstar = prob.optimal_value
+    input_hash = bytes2hex(sha256(vcat(reinterpret(UInt8, vec(prob.Q)),
+        reinterpret(UInt8, prob.x0), reinterpret(UInt8, [prob.p, prob.c]))))
 
-    runs = Dict(
-        "AdaBB"               => adabb(prob.f, prob.grad_f, prob.x0, alpha0; fstar=fstar),
-        "Auto-conditioned"    => conditional_gradient_auto_conditioned(prob.f, prob.grad_f, prob.lmo, prob.x0, prob.rho; fstar=fstar),
-        "Adaptive constant"   => conditional_gradient_adaptive(prob.f, prob.grad_f, prob.lmo, prob.x0, prob.rho, gamma0; fstar=fstar),
-        "Adaptive adjustable" => conditional_gradient_adjustable_scaling(prob.f, prob.grad_f, prob.lmo, prob.x0, prob.rho, gamma0; fstar=fstar),
-        "Pure backtracking"   => conditional_gradient_pure_backtracking(prob.f, prob.grad_f, prob.lmo, prob.x0, prob.rho; fstar=fstar),
-        "Short-step"          => conditional_gradient_short_step(prob.f, prob.grad_f, prob.lmo, prob.x0, prob.rho, L_est; fstar=fstar),
-    )
+    calls = [
+        "AdaBB"               => () -> adabb(prob.f, prob.grad_f, prob.x0, alpha0; fstar=fstar),
+        "Auto-conditioned"    => () -> conditional_gradient_auto_conditioned(prob.f, prob.grad_f, prob.lmo, prob.x0, prob.rho; fstar=fstar),
+        "Adaptive constant"   => () -> conditional_gradient_adaptive(prob.f, prob.grad_f, prob.lmo, prob.x0, prob.rho, gamma0; fstar=fstar),
+        "Adaptive adjustable" => () -> conditional_gradient_adjustable_scaling(prob.f, prob.grad_f, prob.lmo, prob.x0, prob.rho, gamma0; fstar=fstar),
+        "Pure backtracking"   => () -> conditional_gradient_pure_backtracking(prob.f, prob.grad_f, prob.lmo, prob.x0, prob.rho; fstar=fstar),
+        "Short-step"          => () -> conditional_gradient_short_step(prob.f, prob.grad_f, prob.lmo, prob.x0, prob.rho, L_est; fstar=fstar),
+    ]
+    runs = benchmark_methods(calls; instance_index=idx,
+        warmups=warmups, repeats=repeats, external_timing=true,
+        gc_before_call=true, order_mode=:balanced, order_seed=order_seed)
     for name in method_order
         r = runs[name]
         all_solved[name][idx] = r.solved
         all_times[name][idx]  = r.solved ? r.total_time : Inf
 
-        # AdaBB has no L_k sequence -> store empty vector
+        # AdaBB records reciprocal accepted step sizes (1/alpha); the other
+        # methods record accepted curvature estimates.
         Lk = hasproperty(r, :L_ks) ? collect(Float64, r.L_ks) : Float64[]
 
         f_last   = isempty(r.values) ? NaN : Float64(last(r.values))
@@ -478,17 +231,46 @@ for (idx, s) in enumerate(seeds)
             "final_value"  => f_last,
             "final_gap"    => gap_last,
             "final_subopt" => f_last - fstar,
+            "p" => prob.p, "c" => prob.c, "dimension" => prob.n,
+            "L_estimate" => prob.L_estimate, "initial_data_sha256" => input_hash,
+            "final_x" => copy(r.x),
+            "independently_verified_final_value" => prob.f(r.x),
+            "independently_verified_final_gradnorm" => norm(prob.grad_f(r.x)),
         )
+        per_iter[name]["seed_$(s)"]["final_feasibility_violation"] = 0.0
+        merge!(per_iter[name]["seed_$(s)"], ACGDSolvers.result_metadata(r), benchmark_metadata(r))
+        if name != "AdaBB"
+            per_iter[name]["seed_$(s)"]["accepted_L_max"] = isempty(r.L_ks) ? NaN : maximum(r.L_ks)
+            per_iter[name]["seed_$(s)"]["accepted_L_arithmetic_mean"] = isempty(r.L_ks) ? NaN : mean(r.L_ks)
+            per_iter[name]["seed_$(s)"]["accepted_L_harmonic_mean"] = harmonic_mean(r.L_ks)
+        end
+
 
         status = r.solved ? "solved" : "NOT solved"
         line = string(rpad(name, 22), status,
                       "  iters=", r.k,
-                      "  time=", round(r.total_time, digits=4), "s",
+                      "  time=", round(r.total_time, sigdigits=6), "s",
                       "  f_last=", round(f_last, digits=8),
                       "  gradnorm_last=", round(gap_last, sigdigits=4))
+        feasibility_key = haskey(per_iter[name]["seed_$(s)"], "final_feasibility_violation") ?
+            "final_feasibility_violation" : "final_aggregate_flow_violation"
+        line *= "  feasibility_check=" * string(per_iter[name]["seed_$(s)"][feasibility_key])
+        line *= "  status=" * r.status
+        if !r.solved
+            line *= "  reasons=" * join(unique(String(sample["status"]) for sample in r.raw_repeats), ",")
+        end
         println(line)
         push!(report_lines, "instance=$(idx)  seed=$(s)  " * line)
     end
+    checkpoint = joinpath(instance_dir, "seed_$(s).mat")
+    matwrite(checkpoint * ".tmp", Dict(
+        "seed" => s, "method_order" => method_order,
+        "problem" => Dict("dimension" => n, "p" => prob.p, "c" => prob.c,
+            "Q" => prob.Q, "x0" => prob.x0, "fstar" => fstar,
+            "L_estimate" => L_est, "initial_data_sha256" => input_hash),
+        "runs" => Dict(matvarname(name) => per_iter[name]["seed_$(s)"] for name in method_order)))
+    mv(checkpoint * ".tmp", checkpoint; force=true)
+    flush(stdout)
 end
 
 # --------------------------------------------------------------------
@@ -522,8 +304,8 @@ println(rpad("Method", 22), rpad("Solved", 10), rpad("Mean time (s)", 16), "Medi
 for name in method_order
     t = filter(isfinite, all_times[name])
     n_solved = length(t)
-    mean_t = n_solved > 0 ? round(mean(t), digits=3) : NaN
-    med_t  = n_solved > 0 ? round(median(t), digits=3) : NaN
+    mean_t = n_solved > 0 ? round(mean(t), sigdigits=6) : NaN
+    med_t  = n_solved > 0 ? round(median(t), sigdigits=6) : NaN
     println(rpad(name, 22), rpad("$n_solved/$(length(seeds))", 10), rpad(string(mean_t), 16), string(med_t))
 
     fv  = [per_iter[name]["seed_$(s)"]["final_value"] for s in seeds]
@@ -550,13 +332,30 @@ style = (
     size = (900, 700), linewidth = 3,
 )
 
-p = performance_profile(PlotsBackend(), T, method_order;
-        logscale = true,
-        legend = :bottomright,
-        xlabel = "Performance Ratio",
-        ylabel = "Fraction of Problems Solved",
-        xformatter = :plain,
-        style...)
+profile = finite_performance_profile(T; logscale=false)
+profile_summary = profile_statistics(T)
+speed_comparisons = Dict{String,Any}()
+for reference_name in ("Adaptive constant", "Adaptive adjustable")
+    reference = findfirst(==(reference_name), method_order)
+    paired = paired_speed_ratios(T; reference=reference)
+    speed_comparisons[matvarname(reference_name)] = Dict(
+        matvarname(name) => Dict(string(key) => value for (key, value) in pairs(paired[j]))
+        for (j, name) in enumerate(method_order))
+end
+matwrite(joinpath(output_dir, "profile_statistics.mat"), Dict(
+    "methods" => method_order, "ratios" => profile.ratios,
+    "thresholds" => profile.thresholds, "fractions" => profile.fractions,
+    "success_rates" => profile.success_rates,
+    "finite_ratio_coverage" => profile.finite_ratio_coverage,
+    "all_failed_instances" => profile.all_failed_instances,
+    "max_ratio" => profile.max_ratio,
+    "paired_speed_comparisons" => speed_comparisons,
+))
+p = Plots.plot(profile.thresholds, profile.fractions;
+        labels=permutedims(method_order), seriestype=:steppost,
+        xscale=:log2, xlims=(1.0, max(2.0, profile.max_ratio)),
+        legend=:bottomright, xlabel="Performance ratio (logarithmic axis)",
+        ylabel="Fraction of all instances solved within ratio", style...)
 
 plot!(p,
     xtickfont = Plots.font(20, "serif"),
@@ -583,5 +382,9 @@ end
 
 Plots.savefig(p, joinpath(output_dir,
     "Power_Quadratic_performance_profile_all_methods.eps"))
+Plots.savefig(p, joinpath(output_dir,
+    "Power_Quadratic_performance_profile_all_methods.png"))
 println("\n✅ Saved performance profile")
 display(p)
+
+end # ACGD_RUN_BENCHMARKS

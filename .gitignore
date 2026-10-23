@@ -1,0 +1,5 @@
+corrected_results/
+.julia/
+*.pidfile
+__pycache__/
+*.pyc

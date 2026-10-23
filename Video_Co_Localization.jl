@@ -5,21 +5,20 @@
 # ==========================================================================
 
 using LinearAlgebra, Statistics, Random, Downloads
-using MAT, Plots, Measures, PyPlot
+using MAT, Plots, Measures, PyPlot, SHA
 
 pyplot()
 PyPlot.PyCall.pyimport("warnings").filterwarnings("ignore")
 
 problem_name = "video_colocalization"
-output_dir = joinpath(@__DIR__, problem_name)
+output_dir = joinpath(get(ENV, "ACGD_OUTPUT_ROOT", joinpath(@__DIR__, "corrected_results")), problem_name)
 mkpath(output_dir)
 matvarname(s) = replace(s, r"[^A-Za-z0-9_]" => "_")
 
 # --------------------------------------------------------------------
 # 1. Problem
 # --------------------------------------------------------------------
-Random.seed!(23)
-data_file = joinpath(output_dir, "aeroplane_data_small.mat")
+data_file = joinpath(@__DIR__, "video_colocalization", "aeroplane_data_small.mat")
 if !isfile(data_file)
     Downloads.download(
         "https://raw.githubusercontent.com/cyrillewcombettes/boostfw/master/aeroplane_data_small.mat",
@@ -50,196 +49,140 @@ function lmo(g)                               # block-wise simplex LMO
     return v
 end
 
-# --------------------------------------------------------------------
-# 2. Solvers (same structure as the core code; f* criterion dropped)
-# --------------------------------------------------------------------
+# Shared solver implementation: full solver elapsed time includes initialization,
+# curvature probes, stopping checks and in-memory history. Data/I/O stay outside.
+if !isdefined(@__MODULE__, :ACGDSolvers)
+    include(joinpath(@__DIR__, "src", "ACGDSolvers.jl"))
+end
+if !isdefined(@__MODULE__, :ACGDBenchmarkSupport)
+    include(joinpath(@__DIR__, "scripts", "benchmark_support.jl"))
+end
+using .ACGDBenchmarkSupport
+
 function conditional_gradient_adaptive(f, grad_f, lmo, x0, gamma;
-        epsilon=1e-5, delta=1e-10, beta=2, max_iter_cap=1000)
-    x_prev = copy(x0); x_curr = copy(x0)
-    values = [f(x_curr)]; times = [0.0]; gaps = Float64[]; L_ks = Float64[]
-    k = 0; solved = false
-    prev_grad = grad_f(x_prev); current_f = f(x_curr)
-    while true
-        start = time()
-        current_grad = grad_f(x_curr)
-        v = lmo(current_grad)
-        d = v - x_curr
-        normd2 = dot(d, d)
-        gap = -dot(current_grad, d)
-        if k == 0
-            Random.seed!(23)
-            d0 = randn(length(x0))
-            L_k = gamma * ((norm(grad_f(x0) - grad_f(x0 + 1e-3 * d0)) / (1e-3 * norm(d0))) + delta)
-        else
-            L_k = gamma * ((norm(current_grad - prev_grad) / norm(x_curr - x_prev)) + delta)
-        end
-        Lknormd2 = L_k * normd2
-        t_k = min(gap / Lknormd2, 1.0)
-        while true
-            x_new = x_curr + t_k * d
-            if current_f - f(x_new) >= t_k * gap - (Lknormd2 / 2) * t_k^2
-                x_prev = copy(x_curr); x_curr = x_new
-                break
-            else
-                L_k *= beta
-                Lknormd2 = L_k * normd2
-                t_k = min(gap / Lknormd2, 1.0)
-            end
-        end
-        k += 1
-        push!(times, time() - start)
-        current_f = f(x_curr); prev_grad = current_grad
-        push!(gaps, gap); push!(values, current_f); push!(L_ks, L_k)
-        k % 100 == 0 && println("  [Adaptive const] k=$k gap=$(round(gap, sigdigits=4)) L_k=$(round(L_k, sigdigits=4)) f=$(round(current_f, digits=6))")
-        if gap <= epsilon;    solved = true;  break; end
-        if k >= max_iter_cap; solved = false; break; end
-    end
-    return (x=x_curr, values=values, times=times, gaps=gaps, L_ks=L_ks,
-            k=k, solved=solved, total_time=sum(times))
+        epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        max_time=Inf, fstar=NaN, kwargs...)
+    r = ACGDSolvers.solve(f, grad_f, lmo, x0;
+        method=:adaptive, constrained=true, stop_rule=:stationarity,
+        epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, gamma=gamma, kwargs...)
+    return r
 end
 
 function conditional_gradient_adjustable_scaling(f, grad_f, lmo, x0, gamma;
-        epsilon=1e-5, delta=1e-10, beta=2, max_iter_cap=1000)
-    x_prev = copy(x0); x_curr = copy(x0)
-    values = [f(x_curr)]; times = [0.0]; gaps = Float64[]; L_ks = Float64[]
-    gamma_history = [gamma]
-    k = 0; solved = false
-    prev_grad = grad_f(x_prev); current_f = f(x_curr)
-    recent_backtracks = Int[]
-    while true
-        start = time()
-        current_grad = grad_f(x_curr)
-        v = lmo(current_grad)
-        d = v - x_curr
-        normd2 = dot(d, d)
-        gap = -dot(current_grad, d)
-        if k == 0
-            Random.seed!(23)
-            d0 = randn(length(x0))
-            L_k = gamma * ((norm(grad_f(x0) - grad_f(x0 + 1e-3 * d0)) / (1e-3 * norm(d0))) + delta)
-        else
-            L_k = gamma * ((norm(current_grad - prev_grad) / norm(x_curr - x_prev)) + delta)
-        end
-        Lknormd2 = L_k * normd2
-        t_k = min(gap / Lknormd2, 1.0)
-        i = 0
-        while true
-            x_new = x_curr + t_k * d
-            if current_f - f(x_new) >= t_k * gap - (Lknormd2 / 2) * t_k^2
-                x_prev = copy(x_curr); x_curr = x_new
-                push!(recent_backtracks, i)
-                break
-            else
-                L_k *= beta
-                Lknormd2 = L_k * normd2
-                t_k = min(gap / Lknormd2, 1.0)
-                i += 1
-            end
-        end
-        if k % 10 == 0 && k > 0
-            total_backtracks = sum(recent_backtracks)
-            if total_backtracks == 0
-                gamma =  gamma * 0.9  # Decrease gamma, with a lower bound
-             #   println(">> k $k: No backtracking, >> reducing gamma to $(round(gamma, digits=4))")
-            elseif total_backtracks > 10
-                gamma =min(1,gamma * 1.1)  # Increase gamma, with an upper bound
-            #    println("<< k $k: ($total_backtracks) backtracking, << increasing gamma to $(round(gamma, digits=4))")
-            end
-            #push!(gamma_history, gamma)
-            recent_backtracks = Int[]  # Reset for the next 10 iterations
-        elseif k % 10 == 0
-            #push!(gamma_history, gamma)
-            recent_backtracks = Int[]
-        else
-            push!(recent_backtracks, i)
-        end
-        k += 1
-        push!(times, time() - start)
-        current_f = f(x_curr); prev_grad = current_grad
-        push!(gaps, gap); push!(values, current_f); push!(L_ks, L_k)
-        k % 100 == 0 && println("  [Adaptive adj]   k=$k gap=$(round(gap, sigdigits=4)) L_k=$(round(L_k, sigdigits=4)) f=$(round(current_f, digits=6))")
-        if gap <= epsilon;    solved = true;  break; end
-        if k >= max_iter_cap; solved = false; break; end
-    end
-    return (x=x_curr, values=values, times=times, gaps=gaps, L_ks=L_ks,
-            gamma_history=gamma_history, k=k, solved=solved, total_time=sum(times))
+        epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        max_time=Inf, fstar=NaN, kwargs...)
+    r = ACGDSolvers.solve(f, grad_f, lmo, x0;
+        method=:adjustable, constrained=true, stop_rule=:stationarity,
+        epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, gamma=gamma, kwargs...)
+    return r
 end
 
 function conditional_gradient_pure_backtracking(f, grad_f, lmo, x0;
-        epsilon=1e-5, max_iter_cap=1000)
-    x_prev = copy(x0)
-    values = [f(x_prev)]; times = [0.0]; gaps = Float64[]; L_ks = Float64[]
-    k = 0; solved = false
-    tau_bt = 2.0; eta = 0.9
-    Random.seed!(23)
-    d0 = randn(length(x0))
-    M = eta * norm(grad_f(x0) - grad_f(x0 + 1e-3 * d0)) / (1e-3 * norm(d0))
-    f_prev = f(x_prev)
-    while true
-        start = time()
-        grad = grad_f(x_prev)
-        v = lmo(grad)
-        d = v - x_prev
-        normd2 = dot(d, d)
-        gap = -dot(grad, d)
-        t_k = min(gap / (M * normd2), 1.0)
-        x_new = x_prev; f_new = f_prev
-        while true
-            x_new = x_prev + t_k * d
-            f_new = f(x_new)
-            if f_prev - f_new >= t_k * gap - (M / 2) * t_k^2 * normd2
-                break
-            else
-                M *= tau_bt
-                t_k = min(gap / (M * normd2), 1.0)
-            end
-        end
-        push!(L_ks, M)            # accepted L_k of this iteration
-        x_prev = x_new; f_prev = f_new
-        M *= eta
-        k += 1
-        push!(times, time() - start)
-        push!(gaps, gap); push!(values, f_new)
-        k % 100 == 0 && println("  [Pure backtrack] k=$k gap=$(round(gap, sigdigits=4)) L_k=$(round(L_ks[end], sigdigits=4)) f=$(round(f_new, digits=6))")
-        if gap <= epsilon;    solved = true;  break; end
-        if k >= max_iter_cap; solved = false; break; end
-    end
-    return (x=x_prev, values=values, times=times, gaps=gaps, L_ks=L_ks,
-            k=k, solved=solved, total_time=sum(times))
+        epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        max_time=Inf, fstar=NaN, kwargs...)
+    r = ACGDSolvers.solve(f, grad_f, lmo, x0;
+        method=:backtracking, constrained=true, stop_rule=:stationarity,
+        epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, kwargs...)
+    return r
 end
+
+if get(ENV, "ACGD_RUN_BENCHMARKS", "true") == "true"
 
 # --------------------------------------------------------------------
 # 3. Run the 3 methods
 # --------------------------------------------------------------------
 gamma0   = 1/4
-max_iter = 500
+max_iter = parse(Int, get(ENV, "ACGD_TRACE_ITER", "500"))
+warmups = parse(Int, get(ENV, "ACGD_WARMUPS", "2"))
+repeats = benchmark_repeats(3)
+order_seed = 20261022
+source_file = data_file
+source_file_sha256 = bytes2hex(sha256(read(source_file)))
 
 method_order = ["Adaptive constant", "Adaptive adjustable", "Pure backtracking"]
 
-runs = Dict{String,Any}()
-println("\n>> Adaptive constant");   runs["Adaptive constant"]   = conditional_gradient_adaptive(f, grad_f, lmo, x0, gamma0; max_iter_cap=max_iter)
-println("\n>> Adaptive adjustable"); runs["Adaptive adjustable"] = conditional_gradient_adjustable_scaling(f, grad_f, lmo, x0, gamma0; max_iter_cap=max_iter)
-println("\n>> Pure backtracking");   runs["Pure backtracking"]   = conditional_gradient_pure_backtracking(f, grad_f, lmo, x0; max_iter_cap=max_iter)
+instance_data = problem_snapshot((A=A, b=b, x0=x0, n_blocks=n_blocks,
+    block_size=block_size, L_global=L_global, source_file_sha256=source_file_sha256))
+initial_data_sha256 = snapshot_sha256(instance_data)
+instance_data["initial_data_sha256"] = initial_data_sha256
+
+write_run_manifest(joinpath(output_dir, "run_manifest.toml"), Dict(
+    "problem" => problem_name, "script" => basename(@__FILE__),
+    "stop_rule" => "stationarity", "epsilon" => 1e-5,
+    "max_iter_cap" => max_iter, "max_time" => Inf,
+    "gamma" => gamma0, "beta" => 2.0, "eta" => 0.9, "block_size" => 10,
+    "probe_seed" => 23, "delta" => 1e-10,
+    "generator_rng" => "original Julia default RNG explicitly reseeded per instance; see pinned Julia version",
+    "method_order" => method_order,
+    "experiment_kind" => "accepted-curvature trace; stationarity stopping or fixed iteration cap",
+    "source_file" => "video_colocalization/aeroplane_data_small.mat", "source_file_sha256" => source_file_sha256,
+    "source_url" => "https://raw.githubusercontent.com/cyrillewcombettes/boostfw/master/aeroplane_data_small.mat",
+    "initial_data_sha256" => initial_data_sha256,
+    "external_timing" => true, "gc_before_call" => true,
+    "order_mode" => "balanced", "order_seed" => order_seed,
+    "accepted_curvature" => "accepted L_k before eta scaling; one value per accepted step",
+    "smoothness_preprocessing" => "problem constants computed before solver timing",
+    "feasibility_scope" => "representative repeat checked outside solver timing",
+    "run_controls" => Dict(name => get(ENV, name, default) for (name, default) in
+        [("ACGD_OUTPUT_ROOT", joinpath(@__DIR__, "corrected_results")),
+         ("ACGD_SEED_COUNT", "100"), ("ACGD_MAX_ITER", "100000"),
+         ("ACGD_TRACE_ITER", "500"), ("ACGD_WARMUPS", "2"), ("ACGD_REPEATS", "6")]),
+    "warmups" => warmups,
+    "repeats" => repeats,
+    "seeds" => [23],
+    "aggregation" => "median external complete-call time; trace may reach the iteration cap without stationarity",
+); root=@__DIR__)
+
+calls = [
+    "Adaptive constant" => () -> conditional_gradient_adaptive(f, grad_f, lmo, x0, gamma0; max_iter_cap=max_iter),
+    "Adaptive adjustable" => () -> conditional_gradient_adjustable_scaling(f, grad_f, lmo, x0, gamma0; max_iter_cap=max_iter),
+    "Pure backtracking" => () -> conditional_gradient_pure_backtracking(f, grad_f, lmo, x0; max_iter_cap=max_iter),
+]
+runs = benchmark_methods(calls; warmups=warmups, repeats=repeats,
+    instance_index=23, external_timing=true, gc_before_call=true,
+    order_mode=:balanced, order_seed=order_seed)
 
 report_lines = String[]
+saved_runs = Dict{String,Any}()
 for name in method_order
     r = runs[name]
-    line = string(rpad(name, 22), r.solved ? "solved" : "cap reached",
-            "  iters=", r.k, "  time=", round(r.total_time, digits=2), "s",
+    raw_statuses = join(unique(String(raw["status"]) for raw in r.raw_repeats), ", ")
+    final_gradient = grad_f(r.x)
+    final_gap = iszero(norm(final_gradient)) ? 0.0 : dot(final_gradient, r.x - lmo(final_gradient))
+    line = string(rpad(name, 22), raw_statuses,
+            "  iters=", r.k, "  time=", round(r.total_time, sigdigits=6), "s",
             "  f_last=", round(last(r.values), digits=6),
             "  gap_last=", round(last(r.gaps), sigdigits=4),
-            "  max L_k=", round(maximum(r.L_ks), sigdigits=4),
-            "  mean L_k=", round(mean(r.L_ks), sigdigits=4))
+            "  max L_k=", round((isempty(r.L_ks) ? NaN : maximum(r.L_ks)), sigdigits=4),
+            "  mean L_k=", round((isempty(r.L_ks) ? NaN : mean(r.L_ks)), sigdigits=4),
+            "  harmonic mean L_k=", round(harmonic_mean(r.L_ks), sigdigits=4))
     println(line); push!(report_lines, line)
 
-    matwrite(joinpath(output_dir, "$(problem_name)_iterations_$(matvarname(name)).mat"), Dict(
+    saved = Dict{String,Any}(
         "problem" => problem_name, "method" => name,
+        "seed" => 23, "initial_data_sha256" => initial_data_sha256,
+        "source_file_sha256" => source_file_sha256,
+        "final_x" => r.x,
+        "independently_verified_final_value" => f(r.x),
+        "independently_verified_final_gap" => final_gap,
+        "independently_verified_final_gradnorm" => norm(final_gradient),
         "values" => collect(Float64, r.values), "gaps" => collect(Float64, r.gaps),
         "times" => collect(Float64, r.times), "L_ks" => collect(Float64, r.L_ks),
         "iterations" => r.k, "solved" => r.solved ? 1 : 0,
         "total_time" => r.total_time, "L_global" => L_global,
-    ))
+        "final_feasibility_violation" => max(0.0, -minimum(r.x), maximum(abs.(vec(sum(reshape(r.x, block_size, n_blocks), dims=1)) .- 1.0))),
+        "accepted_L_max" => isempty(r.L_ks) ? NaN : maximum(r.L_ks),
+        "accepted_L_arithmetic_mean" => isempty(r.L_ks) ? NaN : mean(r.L_ks),
+        "accepted_L_harmonic_mean" => harmonic_mean(r.L_ks),
+        "feasibility_scope" => "representative repeat; all raw repeat objective/residual outcomes retained",
+        ACGDSolvers.result_metadata(r)..., benchmark_metadata(r)...,
+    )
+    saved_runs[matvarname(name)] = saved
+    save_instance_checkpoint(joinpath(output_dir, "$(problem_name)_iterations_$(matvarname(name)).mat"), saved; writer=matwrite)
 end
+save_instance_checkpoint(joinpath(output_dir, "instances", "seed_23.mat"),
+    Dict("problem" => instance_data, "runs" => saved_runs); writer=matwrite)
+flush(stdout)
 open(joinpath(output_dir, "$(problem_name)_summary.txt"), "w") do io
     println(io, "Problem: ", problem_name, "   L = ||A||_2 = ", L_global)
     foreach(l -> println(io, l), report_lines)
@@ -328,5 +271,8 @@ Plots.plot!(p1,
 
 fname = joinpath(output_dir, "Video_L.eps")
 Plots.savefig(p1, fname)
+Plots.savefig(p1, joinpath(output_dir, "Video_L.png"))
 println("✅ Saved: ", fname)
 display(p1)
+
+end # ACGD_RUN_BENCHMARKS

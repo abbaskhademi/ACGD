@@ -1,0 +1,14 @@
+# Proposed validation grid, NOT evidence that these choices were tested.
+status = "unrun"
+reference_eta = 0.9
+reference_beta = 2.0
+eta = [0.5, 0.9, 1.0]
+beta = [1.5, 2.0, 4.0]
+seeds = "1:100"
+warmups = 1
+repeats = 3
+aggregation = "median_complete_solver_elapsed"
+success = "all measured repeats meet the benchmark target"
+max_iter_cap = 100000
+max_time = inf
+note = "Use the same problem instances, starts, targets and environment as the reference comparison. No competitiveness conclusion is asserted."
