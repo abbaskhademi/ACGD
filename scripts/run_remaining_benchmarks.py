@@ -3,8 +3,9 @@
 
 The caller should launch this process as a durable service. This script performs
 no downloads, installations, or remote operations. A frozen source directory and
-already staged LIBSVM datasets are required. Resume is explicit and only skips
-validated, checksummed completions from exactly the same configuration.
+already staged datasets for the selected jobs are required. Resume is explicit
+and only skips validated, checksummed completions from exactly the same
+configuration.
 """
 
 from __future__ import annotations
@@ -249,6 +250,33 @@ def run_job(args, job: Job, entry: dict[str, Any], state: dict[str, Any]) -> Non
     print(f"[{utc_now()}] {job.identifier}: {entry['status']}", flush=True)
 
 
+def validate_datasets(parser, source: Path, data: Path, jobs) -> None:
+    """Reject missing inputs before hashing or letting Julia download into the archive.
+
+    These are the exact paths consumed by the drivers (and LIBSVMdata with
+    LIBSVMDATA_HOME=data). This is a staging check, not format/content validation.
+    """
+    datasets = {
+        "logistic": data / "a9a",
+        "sigmoid": data / "w8a",
+        "collaborative_filtering": source / "movielens100k.csv",
+        "video_colocalization": source / "video_colocalization/aeroplane_data_small.mat",
+    }
+    for job in jobs:
+        path = datasets.get(job.identifier)
+        if path is None:
+            continue
+        try:
+            if not path.is_file():
+                raise ValueError("not a regular file")
+            with path.open("rb") as handle:
+                if not handle.read(1):
+                    raise ValueError("file is empty")
+        except (OSError, ValueError) as exception:
+            parser.error(f"required dataset for {job.identifier} is unavailable: {path} "
+                         f"({exception}); stage a readable, nonempty file before launching")
+
+
 def parse_arguments(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-dir", type=Path, required=True)
@@ -287,12 +315,13 @@ def parse_arguments(argv=None):
     args.taskset = Path(taskset).resolve()
     if args.cpu not in os.sched_getaffinity(0):
         parser.error(f"CPU {args.cpu} is outside the current allowed affinity")
-    required_files = {args.source_dir / "Project.toml"}
+    required_files = {args.source_dir / "Project.toml", args.source_dir / "Manifest.toml"}
     for job in args.jobs:
         required_files.update((args.source_dir / job.script, args.source_dir / "scripts" / job.analyzer))
     for path in sorted(required_files):
         if not path.is_file():
             parser.error(f"required source file is unavailable: {path}")
+    validate_datasets(parser, args.source_dir, args.data_dir, args.jobs)
     return args
 
 

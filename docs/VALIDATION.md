@@ -55,6 +55,20 @@ is pending; the earlier 27 passing assertions do not certify these new paths.
 
 ## Run the checks
 
+Python-only runner preflight regressions (no Julia or benchmark execution):
+
+```sh
+python -m unittest discover -s test -p 'test_*.py' -v
+```
+
+The queue requires readable, nonempty datasets only for its selected jobs: `a9a`
+and `w8a` in `--data-dir` for logistic and sigmoid respectively,
+`movielens100k.csv` in the source root for collaborative filtering, and
+`video_colocalization/aeroplane_data_small.mat` for video co-localization.
+The full suite requires all four before launching any tests. Stage them before
+starting a run so driver downloads cannot change the captured input hashes.
+These checks validate staging, not dataset format or scientific correctness.
+
 Core solver, wrapper and measurement checks use Julia standard libraries:
 
 ```sh

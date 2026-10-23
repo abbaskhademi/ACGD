@@ -18,7 +18,9 @@ import signal
 import sys
 import time
 
-from run_remaining_benchmarks import JOBS, THREAD_ENV, atomic_text, run_command, tree_checksums, utc_now
+from run_remaining_benchmarks import (
+    JOBS, THREAD_ENV, atomic_text, run_command, tree_checksums, utc_now, validate_datasets,
+)
 
 TESTS = ("runtests.jl", "wrappers.jl", "integration.jl", "benchmark_measurement.jl",
          "remaining_measurement.jl", "remaining_analysis.jl")
@@ -70,6 +72,7 @@ def parse_arguments(argv=None):
     for path in required:
         if not path.is_file():
             parser.error(f"required source file unavailable: {path}")
+    validate_datasets(parser, args.source, args.data, JOBS)
     taskset = shutil.which("taskset")
     if taskset is None or args.cpu not in os.sched_getaffinity(0):
         parser.error("taskset and the selected allowed CPU are required")
