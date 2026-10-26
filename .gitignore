@@ -3,3 +3,14 @@ corrected_results/
 *.pidfile
 __pycache__/
 *.pyc
+/Lasso_Problem/
+/Logistic_Regression_with_Regularization/
+/NonconvexQP_Simplex/
+/Sigmoid_w8a/
+/collaborative_filtering/
+/least_squares/
+/matrix_balancing/
+/matrix_factorization/
+/power_quadratic/
+/traffic_assignment/
+/video_colocalization/
