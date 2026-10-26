@@ -26,7 +26,7 @@ _seconds(t) = (time_ns() - t) / 1e9
 function update_scaling(gamma, rejected, completed, block_total)
     block_total += rejected
     if completed % 10 == 0
-        gamma = block_total == 0 ? 0.9gamma : block_total > 10 ? min(1.0, 1.1gamma) : gamma
+        gamma = block_total == 0 ? 0.9gamma : block_total > 5 ? min(1.0, 1.1gamma) : gamma
         block_total = 0
     end
     return gamma, block_total
