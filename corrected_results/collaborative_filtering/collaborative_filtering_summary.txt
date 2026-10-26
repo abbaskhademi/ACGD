@@ -1,0 +1,4 @@
+Problem: collaborative_filtering   L = 1.0e-5
+Adaptive constant     iteration_limit  iters=500  time=253.765s  f_last=0.198619  gap_last=0.07959  max L_k=5.452e-6  mean L_k=3.237e-6  harmonic mean L_k=2.914e-6
+Adaptive adjustable   iteration_limit  iters=500  time=229.843s  f_last=0.198505  gap_last=0.08653  max L_k=5.481e-6  mean L_k=3.186e-6  harmonic mean L_k=2.908e-6
+Pure backtracking     iteration_limit  iters=500  time=220.167s  f_last=0.202795  gap_last=0.08107  max L_k=6.888e-6  mean L_k=3.344e-6  harmonic mean L_k=3.155e-6
