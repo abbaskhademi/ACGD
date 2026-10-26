@@ -1,0 +1,4 @@
+Problem: video_colocalization   L = ||A||_2 = 0.003277550499196739
+Adaptive constant     iteration_limit  iters=500  time=0.330147s  f_last=0.098519  gap_last=0.0002007  max L_k=0.006407  mean L_k=0.004271  harmonic mean L_k=0.003845
+Adaptive adjustable   iteration_limit  iters=500  time=0.205834s  f_last=0.098526  gap_last=0.0001962  max L_k=0.006401  mean L_k=0.004376  harmonic mean L_k=0.004004
+Pure backtracking     iteration_limit  iters=500  time=0.163531s  f_last=0.098548  gap_last=0.0002094  max L_k=0.006353  mean L_k=0.004587  harmonic mean L_k=0.004408
