@@ -30,11 +30,7 @@ index mismatch must not be carried into the corrected definition of success.
 | Regularized logistic regression | `g <= 1e-3` only | Unknown; stored as `NaN` | `Logistic_Regression_with_Regularization.jl:73,138,440` |
 | Power shifted quadratic | `f-fstar <= 1e-5` only | `fstar=c^p` | `Power_Shifted_Quadratic.jl:47,110,247,410` |
 
-The full comparison drivers all select **100,000 iterations**, including traffic.
-Traffic's defaults of 3,000 are overridden by `MAX_ITER_CAP=100000` at lines
-445 and 468–477. Its historical auto-conditioned report reaches 90,308 iterations,
-consistent with the override. This preliminary checklist item is a misleading
-default, not a demonstrated 3,000-iteration experiment.
+The historical full comparison drivers selected a maximum of **100,000 iterations**, including traffic. The historical auto-conditioned report reaches 90,308 iterations, consistent with that cap. The corrected traffic experiment protocol now uses `ACGD_MAX_ITER=3000` as the default maximum iteration cap in `traffic_assignment.jl`, including the solver wrappers and run manifest. This is a protocol change; it does not retroactively alter historical results. Runs under the corrected protocol may stop before 3,000 iterations if their stopping criterion is met. Rerun the affected experiments and verify their generated manifests and stopping conditions before treating any results as corrected-protocol results.
 
 Lasso alone actively enforces a 500-second limit for pure backtracking
 (`lasso_problem.jl:298`); the other time-limit branches are commented out. Remove

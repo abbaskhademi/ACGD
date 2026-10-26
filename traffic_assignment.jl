@@ -144,7 +144,7 @@ end
 using .ACGDBenchmarkSupport
 
 function conditional_gradient_adaptive(f, grad_f, lmo, x0, gamma;
-        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "3000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
         method=:adaptive, constrained=true, stop_rule=:either,
@@ -153,7 +153,7 @@ function conditional_gradient_adaptive(f, grad_f, lmo, x0, gamma;
 end
 
 function conditional_gradient_adjustable_scaling(f, grad_f, lmo, x0, gamma;
-        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "3000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
         method=:adjustable, constrained=true, stop_rule=:either,
@@ -162,7 +162,7 @@ function conditional_gradient_adjustable_scaling(f, grad_f, lmo, x0, gamma;
 end
 
 function conditional_gradient_auto_conditioned(f, grad_f, lmo, x0;
-        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "3000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
         method=:auto, constrained=true, stop_rule=:either,
@@ -171,7 +171,7 @@ function conditional_gradient_auto_conditioned(f, grad_f, lmo, x0;
 end
 
 function conditional_gradient_pure_backtracking(f, grad_f, lmo, x0;
-        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "3000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
         method=:backtracking, constrained=true, stop_rule=:either,
@@ -180,7 +180,7 @@ function conditional_gradient_pure_backtracking(f, grad_f, lmo, x0;
 end
 
 function conditional_gradient_open(f, grad_f, lmo, x0;
-        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "3000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
         method=:open, constrained=true, stop_rule=:either,
@@ -189,7 +189,7 @@ function conditional_gradient_open(f, grad_f, lmo, x0;
 end
 
 function conditional_gradient_short_step(f, grad_f, lmo, x0, L;
-        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
+        epsilon=1e-3, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "3000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
         method=:short, constrained=true, stop_rule=:either,
@@ -207,7 +207,7 @@ seeds  = 1:parse(Int, get(ENV, "ACGD_SEED_COUNT", "100"))
 isempty(seeds) && throw(ArgumentError("ACGD_SEED_COUNT must be at least one"))
 gamma0 = 1/4
 EPSILON      = 1e-3
-MAX_ITER_CAP = parse(Int, get(ENV, "ACGD_MAX_ITER", "100000"))
+MAX_ITER_CAP = parse(Int, get(ENV, "ACGD_MAX_ITER", "3000"))
 MAX_TIME     = Inf
 
 method_order = ["Adaptive constant", "Adaptive adjustable", "Pure backtracking", "Auto-conditioned",
@@ -228,7 +228,7 @@ report_lines = String[]
 write_run_manifest(joinpath(output_dir, "run_manifest.toml"), Dict(
     "problem" => problem_name, "script" => basename(@__FILE__),
     "stop_rule" => "either", "epsilon" => 1e-3,
-    "max_iter_cap" => parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")), "max_time" => Inf,
+    "max_iter_cap" => parse(Int, get(ENV, "ACGD_MAX_ITER", "3000")), "max_time" => Inf,
     "open_schedule" => "2/(k+2)",
     "gamma" => gamma0, "beta" => 2.0, "eta" => 0.9, "block_size" => 10,
     "probe_seed" => 23, "delta" => 1e-10,
@@ -246,7 +246,7 @@ write_run_manifest(joinpath(output_dir, "run_manifest.toml"), Dict(
     "feasibility_scope" => "representative repeat checked outside solver timing",
     "run_controls" => Dict(name => get(ENV, name, default) for (name, default) in
         [("ACGD_OUTPUT_ROOT", joinpath(@__DIR__, "corrected_results")),
-         ("ACGD_SEED_COUNT", "100"), ("ACGD_MAX_ITER", "100000"),
+         ("ACGD_SEED_COUNT", "100"), ("ACGD_MAX_ITER", "3000"),
          ("ACGD_TRACE_ITER", "500"), ("ACGD_WARMUPS", "2"), ("ACGD_REPEATS", string(repeats))]),
     "warmups" => warmups,
     "repeats" => repeats,
