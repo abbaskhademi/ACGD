@@ -1,0 +1,301 @@
+Problem: quadratic_adjustable_lmo   seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]
+instance=1  seed=1  Adaptive adjustable + norm one  solved  iters=387  time=0.0067049s  f_last=6.09524e-6  gradnorm_last=0.04461  ||x-x*||=0.0006718  feasibility_check=0.0  status=converged
+instance=1  seed=1  Adaptive adjustable + norm two  solved  iters=1025  time=0.0114779s  f_last=9.71004e-6  gradnorm_last=0.05264  ||x-x*||=0.00421  feasibility_check=0.0  status=converged
+instance=1  seed=1  Adaptive adjustable + norm infinitysolved  iters=37040  time=0.623176s  f_last=9.99865e-6  gradnorm_last=0.01153  ||x-x*||=0.001747  feasibility_check=0.0  status=converged
+instance=2  seed=2  Adaptive adjustable + norm one  solved  iters=344  time=0.0059295s  f_last=9.25833e-6  gradnorm_last=0.06623  ||x-x*||=0.0006988  feasibility_check=0.0  status=converged
+instance=2  seed=2  Adaptive adjustable + norm two  solved  iters=669  time=0.0104521s  f_last=9.10865e-6  gradnorm_last=0.1219  ||x-x*||=0.003876  feasibility_check=0.0  status=converged
+instance=2  seed=2  Adaptive adjustable + norm infinitysolved  iters=139  time=0.00138555s  f_last=8.18562e-6  gradnorm_last=0.2345  ||x-x*||=7.4e-5  feasibility_check=0.0  status=converged
+instance=3  seed=3  Adaptive adjustable + norm one  solved  iters=353  time=0.0048437s  f_last=6.57433e-6  gradnorm_last=0.06592  ||x-x*||=0.0003596  feasibility_check=0.0  status=converged
+instance=3  seed=3  Adaptive adjustable + norm two  solved  iters=634  time=0.007393s  f_last=9.82846e-6  gradnorm_last=0.05918  ||x-x*||=0.004113  feasibility_check=0.0  status=converged
+instance=3  seed=3  Adaptive adjustable + norm infinitysolved  iters=119  time=0.00114585s  f_last=8.36113e-6  gradnorm_last=0.2587  ||x-x*||=7.153e-5  feasibility_check=0.0  status=converged
+instance=4  seed=4  Adaptive adjustable + norm one  solved  iters=333  time=0.00462545s  f_last=3.97224e-6  gradnorm_last=0.04744  ||x-x*||=0.0004145  feasibility_check=0.0  status=converged
+instance=4  seed=4  Adaptive adjustable + norm two  solved  iters=614  time=0.0066364s  f_last=9.30784e-6  gradnorm_last=0.03768  ||x-x*||=0.00419  feasibility_check=0.0  status=converged
+instance=4  seed=4  Adaptive adjustable + norm infinitysolved  iters=9049  time=0.116259s  f_last=9.98841e-6  gradnorm_last=0.02513  ||x-x*||=0.0008232  feasibility_check=0.0  status=converged
+instance=5  seed=5  Adaptive adjustable + norm one  solved  iters=378  time=0.00518735s  f_last=4.72405e-6  gradnorm_last=0.0377  ||x-x*||=0.0004753  feasibility_check=0.0  status=converged
+instance=5  seed=5  Adaptive adjustable + norm two  solved  iters=1355  time=0.0174464s  f_last=1.09691e-6  gradnorm_last=0.1063  ||x-x*||=0.0009628  feasibility_check=0.0  status=converged
+instance=5  seed=5  Adaptive adjustable + norm infinitysolved  iters=275  time=0.0029759s  f_last=9.82694e-6  gradnorm_last=0.1742  ||x-x*||=0.0001135  feasibility_check=0.0  status=converged
+instance=6  seed=6  Adaptive adjustable + norm one  solved  iters=365  time=0.00548845s  f_last=8.78371e-6  gradnorm_last=0.04551  ||x-x*||=0.0008822  feasibility_check=0.0  status=converged
+instance=6  seed=6  Adaptive adjustable + norm two  solved  iters=1050  time=0.0132822s  f_last=3.85288e-6  gradnorm_last=0.07561  ||x-x*||=0.002668  feasibility_check=0.0  status=converged
+instance=6  seed=6  Adaptive adjustable + norm infinitysolved  iters=38  time=0.0005557s  f_last=7.08334e-6  gradnorm_last=0.3678  ||x-x*||=4.901e-5  feasibility_check=0.0  status=converged
+instance=7  seed=7  Adaptive adjustable + norm one  solved  iters=363  time=0.0060481s  f_last=8.93923e-6  gradnorm_last=0.101  ||x-x*||=0.0002825  feasibility_check=0.0  status=converged
+instance=7  seed=7  Adaptive adjustable + norm two  solved  iters=1118  time=0.0162723s  f_last=4.58363e-6  gradnorm_last=0.0268  ||x-x*||=0.002917  feasibility_check=0.0  status=converged
+instance=7  seed=7  Adaptive adjustable + norm infinitysolved  iters=2792  time=0.0373004s  f_last=9.93963e-6  gradnorm_last=0.05293  ||x-x*||=0.000387  feasibility_check=0.0  status=converged
+instance=8  seed=8  Adaptive adjustable + norm one  solved  iters=336  time=0.0049141s  f_last=8.68811e-6  gradnorm_last=0.05191  ||x-x*||=0.0007134  feasibility_check=0.0  status=converged
+instance=8  seed=8  Adaptive adjustable + norm two  solved  iters=668  time=0.0082333s  f_last=6.5779e-6  gradnorm_last=0.1306  ||x-x*||=0.003383  feasibility_check=0.0  status=converged
+instance=8  seed=8  Adaptive adjustable + norm infinitysolved  iters=430  time=0.0040367s  f_last=9.92631e-6  gradnorm_last=0.1322  ||x-x*||=0.0001511  feasibility_check=0.0  status=converged
+instance=9  seed=9  Adaptive adjustable + norm one  solved  iters=368  time=0.0057493s  f_last=8.85916e-6  gradnorm_last=0.05902  ||x-x*||=0.0005138  feasibility_check=0.0  status=converged
+instance=9  seed=9  Adaptive adjustable + norm two  solved  iters=857  time=0.0115234s  f_last=7.7857e-6  gradnorm_last=0.09072  ||x-x*||=0.00351  feasibility_check=0.0  status=converged
+instance=9  seed=9  Adaptive adjustable + norm infinitysolved  iters=15643  time=0.241804s  f_last=9.99878e-6  gradnorm_last=0.02022  ||x-x*||=0.0009941  feasibility_check=0.0  status=converged
+instance=10  seed=10  Adaptive adjustable + norm one  solved  iters=375  time=0.00614675s  f_last=9.95081e-6  gradnorm_last=0.04379  ||x-x*||=0.001164  feasibility_check=0.0  status=converged
+instance=10  seed=10  Adaptive adjustable + norm two  solved  iters=1621  time=0.0239902s  f_last=9.627e-6  gradnorm_last=0.006236  ||x-x*||=0.004387  feasibility_check=0.0  status=converged
+instance=10  seed=10  Adaptive adjustable + norm infinitysolved  iters=19335  time=0.309431s  f_last=9.99636e-6  gradnorm_last=0.01439  ||x-x*||=0.001447  feasibility_check=0.0  status=converged
+instance=11  seed=11  Adaptive adjustable + norm one  solved  iters=379  time=0.0054429s  f_last=7.5741e-6  gradnorm_last=0.05453  ||x-x*||=0.0005722  feasibility_check=0.0  status=converged
+instance=11  seed=11  Adaptive adjustable + norm two  solved  iters=1208  time=0.0179116s  f_last=8.00294e-6  gradnorm_last=0.008373  ||x-x*||=0.003993  feasibility_check=0.0  status=converged
+instance=11  seed=11  Adaptive adjustable + norm infinitysolved  iters=6293  time=0.0774517s  f_last=9.99749e-6  gradnorm_last=0.02949  ||x-x*||=0.0006825  feasibility_check=0.0  status=converged
+instance=12  seed=12  Adaptive adjustable + norm one  solved  iters=338  time=0.0046722s  f_last=9.54967e-6  gradnorm_last=0.08121  ||x-x*||=0.0004751  feasibility_check=0.0  status=converged
+instance=12  seed=12  Adaptive adjustable + norm two  solved  iters=709  time=0.0068462s  f_last=9.9752e-6  gradnorm_last=0.005606  ||x-x*||=0.003807  feasibility_check=0.0  status=converged
+instance=12  seed=12  Adaptive adjustable + norm infinitysolved  iters=200  time=0.0016633s  f_last=9.79608e-6  gradnorm_last=0.2097  ||x-x*||=9.383e-5  feasibility_check=0.0  status=converged
+instance=13  seed=13  Adaptive adjustable + norm one  solved  iters=355  time=0.00574925s  f_last=4.50152e-6  gradnorm_last=0.04873  ||x-x*||=0.0002604  feasibility_check=0.0  status=converged
+instance=13  seed=13  Adaptive adjustable + norm two  solved  iters=607  time=0.0064698s  f_last=4.56298e-6  gradnorm_last=0.2293  ||x-x*||=0.001705  feasibility_check=0.0  status=converged
+instance=13  seed=13  Adaptive adjustable + norm infinitysolved  iters=52122  time=0.754458s  f_last=9.99674e-6  gradnorm_last=0.01081  ||x-x*||=0.001919  feasibility_check=0.0  status=converged
+instance=14  seed=14  Adaptive adjustable + norm one  solved  iters=350  time=0.0075326s  f_last=9.92289e-6  gradnorm_last=0.06505  ||x-x*||=0.0006396  feasibility_check=0.0  status=converged
+instance=14  seed=14  Adaptive adjustable + norm two  solved  iters=1135  time=0.0165952s  f_last=5.23727e-6  gradnorm_last=0.1353  ||x-x*||=0.002828  feasibility_check=0.0  status=converged
+instance=14  seed=14  Adaptive adjustable + norm infinityNOT solved  iters=100000  time=1.83362s  f_last=6.55773e-5  gradnorm_last=0.01738  ||x-x*||=0.007864  feasibility_check=0.0  status=repeat_failure  reasons=iteration_limit
+instance=15  seed=15  Adaptive adjustable + norm one  solved  iters=332  time=0.0052834s  f_last=9.98827e-6  gradnorm_last=0.06925  ||x-x*||=0.0006807  feasibility_check=0.0  status=converged
+instance=15  seed=15  Adaptive adjustable + norm two  solved  iters=1456  time=0.0224044s  f_last=5.48616e-6  gradnorm_last=0.1777  ||x-x*||=0.002706  feasibility_check=0.0  status=converged
+instance=15  seed=15  Adaptive adjustable + norm infinitysolved  iters=115  time=0.00139335s  f_last=9.56158e-6  gradnorm_last=0.2766  ||x-x*||=7.532e-5  feasibility_check=0.0  status=converged
+instance=16  seed=16  Adaptive adjustable + norm one  solved  iters=357  time=0.0060242s  f_last=7.99889e-6  gradnorm_last=0.04778  ||x-x*||=0.0007633  feasibility_check=0.0  status=converged
+instance=16  seed=16  Adaptive adjustable + norm two  solved  iters=725  time=0.0087738s  f_last=9.47009e-6  gradnorm_last=0.004794  ||x-x*||=0.003955  feasibility_check=0.0  status=converged
+instance=16  seed=16  Adaptive adjustable + norm infinitysolved  iters=5483  time=0.0760541s  f_last=9.97331e-6  gradnorm_last=0.03676  ||x-x*||=0.0005647  feasibility_check=0.0  status=converged
+instance=17  seed=17  Adaptive adjustable + norm one  solved  iters=334  time=0.0061062s  f_last=6.27118e-6  gradnorm_last=0.06298  ||x-x*||=0.0002836  feasibility_check=0.0  status=converged
+instance=17  seed=17  Adaptive adjustable + norm two  solved  iters=956  time=0.0120781s  f_last=9.7235e-6  gradnorm_last=0.005628  ||x-x*||=0.00435  feasibility_check=0.0  status=converged
+instance=17  seed=17  Adaptive adjustable + norm infinitysolved  iters=30  time=0.0004285s  f_last=7.5834e-6  gradnorm_last=0.3749  ||x-x*||=5.431e-5  feasibility_check=0.0  status=converged
+instance=18  seed=18  Adaptive adjustable + norm one  solved  iters=360  time=0.0054064s  f_last=7.31274e-6  gradnorm_last=0.05432  ||x-x*||=0.0005926  feasibility_check=0.0  status=converged
+instance=18  seed=18  Adaptive adjustable + norm two  solved  iters=1112  time=0.0138508s  f_last=8.48813e-6  gradnorm_last=0.07378  ||x-x*||=0.004052  feasibility_check=0.0  status=converged
+instance=18  seed=18  Adaptive adjustable + norm infinitysolved  iters=13297  time=0.21565s  f_last=9.9916e-6  gradnorm_last=0.02098  ||x-x*||=0.0009936  feasibility_check=0.0  status=converged
+instance=19  seed=19  Adaptive adjustable + norm one  solved  iters=333  time=0.0071903s  f_last=8.54563e-6  gradnorm_last=0.05676  ||x-x*||=0.0006382  feasibility_check=0.0  status=converged
+instance=19  seed=19  Adaptive adjustable + norm two  solved  iters=721  time=0.00865285s  f_last=9.31062e-6  gradnorm_last=0.02728  ||x-x*||=0.004201  feasibility_check=0.0  status=converged
+instance=19  seed=19  Adaptive adjustable + norm infinityNOT solved  iters=100000  time=1.71754s  f_last=3.71969e-5  gradnorm_last=0.01041  ||x-x*||=0.007147  feasibility_check=0.0  status=repeat_failure  reasons=iteration_limit
+instance=20  seed=20  Adaptive adjustable + norm one  solved  iters=363  time=0.00588925s  f_last=8.78832e-6  gradnorm_last=0.06588  ||x-x*||=0.0006507  feasibility_check=0.0  status=converged
+instance=20  seed=20  Adaptive adjustable + norm two  solved  iters=1353  time=0.0187697s  f_last=9.98744e-6  gradnorm_last=0.2146  ||x-x*||=0.00392  feasibility_check=0.0  status=converged
+instance=20  seed=20  Adaptive adjustable + norm infinitysolved  iters=11866  time=0.185157s  f_last=9.99777e-6  gradnorm_last=0.02302  ||x-x*||=0.0009047  feasibility_check=0.0  status=converged
+instance=21  seed=21  Adaptive adjustable + norm one  solved  iters=356  time=0.005151s  f_last=9.56709e-6  gradnorm_last=0.05193  ||x-x*||=0.0008299  feasibility_check=0.0  status=converged
+instance=21  seed=21  Adaptive adjustable + norm two  solved  iters=1212  time=0.0165697s  f_last=9.14761e-6  gradnorm_last=0.03372  ||x-x*||=0.004251  feasibility_check=0.0  status=converged
+instance=21  seed=21  Adaptive adjustable + norm infinityNOT solved  iters=100000  time=1.87395s  f_last=0.000198292  gradnorm_last=0.02508  ||x-x*||=0.0165  feasibility_check=0.0  status=repeat_failure  reasons=iteration_limit
+instance=22  seed=22  Adaptive adjustable + norm one  solved  iters=345  time=0.0069748s  f_last=8.352e-6  gradnorm_last=0.05927  ||x-x*||=0.0007161  feasibility_check=0.0  status=converged
+instance=22  seed=22  Adaptive adjustable + norm two  solved  iters=742  time=0.0126004s  f_last=9.58838e-6  gradnorm_last=0.04464  ||x-x*||=0.004146  feasibility_check=0.0  status=converged
+instance=22  seed=22  Adaptive adjustable + norm infinitysolved  iters=237  time=0.0028207s  f_last=9.74123e-6  gradnorm_last=0.1903  ||x-x*||=0.0001032  feasibility_check=0.0  status=converged
+instance=23  seed=23  Adaptive adjustable + norm one  solved  iters=355  time=0.005867s  f_last=9.91395e-6  gradnorm_last=0.05538  ||x-x*||=0.00116  feasibility_check=0.0  status=converged
+instance=23  seed=23  Adaptive adjustable + norm two  solved  iters=1020  time=0.0169737s  f_last=7.88524e-6  gradnorm_last=0.05984  ||x-x*||=0.00392  feasibility_check=0.0  status=converged
+instance=23  seed=23  Adaptive adjustable + norm infinitysolved  iters=2077  time=0.0292779s  f_last=9.91056e-6  gradnorm_last=0.06414  ||x-x*||=0.00032  feasibility_check=0.0  status=converged
+instance=24  seed=24  Adaptive adjustable + norm one  solved  iters=362  time=0.00707325s  f_last=5.90447e-6  gradnorm_last=0.0532  ||x-x*||=0.0003551  feasibility_check=0.0  status=converged
+instance=24  seed=24  Adaptive adjustable + norm two  solved  iters=736  time=0.010482s  f_last=8.58537e-6  gradnorm_last=0.2279  ||x-x*||=0.003406  feasibility_check=0.0  status=converged
+instance=24  seed=24  Adaptive adjustable + norm infinityNOT solved  iters=100000  time=1.64504s  f_last=0.00956958  gradnorm_last=0.1582  ||x-x*||=0.1259  feasibility_check=0.0  status=repeat_failure  reasons=iteration_limit
+instance=25  seed=25  Adaptive adjustable + norm one  solved  iters=350  time=0.005053s  f_last=8.82503e-6  gradnorm_last=0.06544  ||x-x*||=0.0004473  feasibility_check=0.0  status=converged
+instance=25  seed=25  Adaptive adjustable + norm two  solved  iters=773  time=0.010303s  f_last=9.20078e-6  gradnorm_last=0.02676  ||x-x*||=0.004271  feasibility_check=0.0  status=converged
+instance=25  seed=25  Adaptive adjustable + norm infinitysolved  iters=83  time=0.00105825s  f_last=9.81573e-6  gradnorm_last=0.3345  ||x-x*||=6.064e-5  feasibility_check=0.0  status=converged
+instance=26  seed=26  Adaptive adjustable + norm one  solved  iters=362  time=0.0069775s  f_last=2.51405e-6  gradnorm_last=0.05294  ||x-x*||=0.0001541  feasibility_check=0.0  status=converged
+instance=26  seed=26  Adaptive adjustable + norm two  solved  iters=1200  time=0.0179004s  f_last=4.36275e-6  gradnorm_last=0.07084  ||x-x*||=0.002723  feasibility_check=0.0  status=converged
+instance=26  seed=26  Adaptive adjustable + norm infinitysolved  iters=22139  time=0.401183s  f_last=9.99499e-6  gradnorm_last=0.01441  ||x-x*||=0.001447  feasibility_check=0.0  status=converged
+instance=27  seed=27  Adaptive adjustable + norm one  solved  iters=327  time=0.00537945s  f_last=6.02115e-6  gradnorm_last=0.06572  ||x-x*||=0.00029  feasibility_check=0.0  status=converged
+instance=27  seed=27  Adaptive adjustable + norm two  solved  iters=844  time=0.0106429s  f_last=3.76552e-6  gradnorm_last=0.06694  ||x-x*||=0.002438  feasibility_check=0.0  status=converged
+instance=27  seed=27  Adaptive adjustable + norm infinityNOT solved  iters=100000  time=1.65957s  f_last=5.43057e-5  gradnorm_last=0.01382  ||x-x*||=0.007861  feasibility_check=0.0  status=repeat_failure  reasons=iteration_limit
+instance=28  seed=28  Adaptive adjustable + norm one  solved  iters=362  time=0.0060039s  f_last=9.94545e-6  gradnorm_last=0.07021  ||x-x*||=0.0009272  feasibility_check=0.0  status=converged
+instance=28  seed=28  Adaptive adjustable + norm two  solved  iters=1029  time=0.0123944s  f_last=9.61553e-6  gradnorm_last=0.05422  ||x-x*||=0.004343  feasibility_check=0.0  status=converged
+instance=28  seed=28  Adaptive adjustable + norm infinitysolved  iters=2953  time=0.0359874s  f_last=9.92777e-6  gradnorm_last=0.04908  ||x-x*||=0.0004248  feasibility_check=0.0  status=converged
+instance=29  seed=29  Adaptive adjustable + norm one  solved  iters=379  time=0.00651045s  f_last=9.41656e-6  gradnorm_last=0.05836  ||x-x*||=0.0005291  feasibility_check=0.0  status=converged
+instance=29  seed=29  Adaptive adjustable + norm two  solved  iters=778  time=0.0094442s  f_last=3.73703e-6  gradnorm_last=0.05985  ||x-x*||=0.002446  feasibility_check=0.0  status=converged
+instance=29  seed=29  Adaptive adjustable + norm infinitysolved  iters=22032  time=0.305442s  f_last=9.99442e-6  gradnorm_last=0.01435  ||x-x*||=0.001447  feasibility_check=0.0  status=converged
+instance=30  seed=30  Adaptive adjustable + norm one  solved  iters=356  time=0.0063386s  f_last=9.75729e-6  gradnorm_last=0.07633  ||x-x*||=0.0007434  feasibility_check=0.0  status=converged
+instance=30  seed=30  Adaptive adjustable + norm two  solved  iters=1162  time=0.018468s  f_last=7.14499e-6  gradnorm_last=0.1448  ||x-x*||=0.003373  feasibility_check=0.0  status=converged
+instance=30  seed=30  Adaptive adjustable + norm infinitysolved  iters=56455  time=0.901696s  f_last=9.99985e-6  gradnorm_last=0.009857  ||x-x*||=0.002108  feasibility_check=0.0  status=converged
+instance=31  seed=31  Adaptive adjustable + norm one  solved  iters=347  time=0.00596975s  f_last=9.74095e-6  gradnorm_last=0.0824  ||x-x*||=0.000693  feasibility_check=0.0  status=converged
+instance=31  seed=31  Adaptive adjustable + norm two  solved  iters=1064  time=0.0125414s  f_last=4.39443e-6  gradnorm_last=0.05883  ||x-x*||=0.002653  feasibility_check=0.0  status=converged
+instance=31  seed=31  Adaptive adjustable + norm infinitysolved  iters=8419  time=0.113219s  f_last=9.98898e-6  gradnorm_last=0.02753  ||x-x*||=0.0007493  feasibility_check=0.0  status=converged
+instance=32  seed=32  Adaptive adjustable + norm one  solved  iters=333  time=0.00495035s  f_last=7.07921e-6  gradnorm_last=0.08292  ||x-x*||=0.0002963  feasibility_check=0.0  status=converged
+instance=32  seed=32  Adaptive adjustable + norm two  solved  iters=910  time=0.0121603s  f_last=9.06655e-6  gradnorm_last=0.1174  ||x-x*||=0.004088  feasibility_check=0.0  status=converged
+instance=32  seed=32  Adaptive adjustable + norm infinitysolved  iters=8602  time=0.129532s  f_last=9.99962e-6  gradnorm_last=0.01571  ||x-x*||=0.001318  feasibility_check=0.0  status=converged
+instance=33  seed=33  Adaptive adjustable + norm one  solved  iters=345  time=0.0056526s  f_last=5.77611e-6  gradnorm_last=0.08241  ||x-x*||=0.000298  feasibility_check=0.0  status=converged
+instance=33  seed=33  Adaptive adjustable + norm two  solved  iters=1544  time=0.0222515s  f_last=5.33685e-6  gradnorm_last=0.1158  ||x-x*||=0.00301  feasibility_check=0.0  status=converged
+instance=33  seed=33  Adaptive adjustable + norm infinitysolved  iters=54239  time=0.81164s  f_last=9.99938e-6  gradnorm_last=0.01052  ||x-x*||=0.001919  feasibility_check=0.0  status=converged
+instance=34  seed=34  Adaptive adjustable + norm one  solved  iters=359  time=0.0046377s  f_last=9.82041e-6  gradnorm_last=0.06621  ||x-x*||=0.0004771  feasibility_check=0.0  status=converged
+instance=34  seed=34  Adaptive adjustable + norm two  solved  iters=812  time=0.00793105s  f_last=8.61967e-6  gradnorm_last=0.1697  ||x-x*||=0.003439  feasibility_check=0.0  status=converged
+instance=34  seed=34  Adaptive adjustable + norm infinitysolved  iters=152  time=0.00148425s  f_last=8.36487e-6  gradnorm_last=0.2178  ||x-x*||=8.095e-5  feasibility_check=0.0  status=converged
+instance=35  seed=35  Adaptive adjustable + norm one  solved  iters=329  time=0.00479565s  f_last=8.50157e-6  gradnorm_last=0.06564  ||x-x*||=0.0005096  feasibility_check=0.0  status=converged
+instance=35  seed=35  Adaptive adjustable + norm two  solved  iters=1069  time=0.0136323s  f_last=4.95041e-6  gradnorm_last=0.1178  ||x-x*||=0.002841  feasibility_check=0.0  status=converged
+instance=35  seed=35  Adaptive adjustable + norm infinitysolved  iters=4742  time=0.0631216s  f_last=9.98154e-6  gradnorm_last=0.03701  ||x-x*||=0.0005649  feasibility_check=0.0  status=converged
+instance=36  seed=36  Adaptive adjustable + norm one  solved  iters=352  time=0.00512225s  f_last=6.55546e-6  gradnorm_last=0.05582  ||x-x*||=0.0004362  feasibility_check=0.0  status=converged
+instance=36  seed=36  Adaptive adjustable + norm two  solved  iters=1321  time=0.0173078s  f_last=9.74326e-6  gradnorm_last=0.07534  ||x-x*||=0.004349  feasibility_check=0.0  status=converged
+instance=36  seed=36  Adaptive adjustable + norm infinitysolved  iters=10159  time=0.150879s  f_last=9.9923e-6  gradnorm_last=0.02528  ||x-x*||=0.0008233  feasibility_check=0.0  status=converged
+instance=37  seed=37  Adaptive adjustable + norm one  solved  iters=373  time=0.00495275s  f_last=4.66437e-6  gradnorm_last=0.05254  ||x-x*||=0.0002834  feasibility_check=0.0  status=converged
+instance=37  seed=37  Adaptive adjustable + norm two  solved  iters=827  time=0.0097857s  f_last=5.145e-6  gradnorm_last=0.1669  ||x-x*||=0.002499  feasibility_check=0.0  status=converged
+instance=37  seed=37  Adaptive adjustable + norm infinitysolved  iters=605  time=0.0055927s  f_last=9.59827e-6  gradnorm_last=0.1209  ||x-x*||=0.000163  feasibility_check=0.0  status=converged
+instance=38  seed=38  Adaptive adjustable + norm one  solved  iters=353  time=0.0053641s  f_last=1.68586e-6  gradnorm_last=0.03206  ||x-x*||=0.0001829  feasibility_check=0.0  status=converged
+instance=38  seed=38  Adaptive adjustable + norm two  solved  iters=746  time=0.00704855s  f_last=7.56451e-6  gradnorm_last=0.2543  ||x-x*||=0.00275  feasibility_check=0.0  status=converged
+instance=38  seed=38  Adaptive adjustable + norm infinitysolved  iters=1196  time=0.0143246s  f_last=9.92611e-6  gradnorm_last=0.07696  ||x-x*||=0.0002654  feasibility_check=0.0  status=converged
+instance=39  seed=39  Adaptive adjustable + norm one  solved  iters=362  time=0.0048224s  f_last=7.83979e-6  gradnorm_last=0.05739  ||x-x*||=0.0007234  feasibility_check=0.0  status=converged
+instance=39  seed=39  Adaptive adjustable + norm two  solved  iters=748  time=0.0076689s  f_last=8.08461e-6  gradnorm_last=0.1236  ||x-x*||=0.003451  feasibility_check=0.0  status=converged
+instance=39  seed=39  Adaptive adjustable + norm infinitysolved  iters=49996  time=0.711818s  f_last=9.99815e-6  gradnorm_last=0.01086  ||x-x*||=0.001919  feasibility_check=0.0  status=converged
+instance=40  seed=40  Adaptive adjustable + norm one  solved  iters=337  time=0.0047013s  f_last=5.72631e-6  gradnorm_last=0.08428  ||x-x*||=0.000215  feasibility_check=0.0  status=converged
+instance=40  seed=40  Adaptive adjustable + norm two  solved  iters=910  time=0.0113454s  f_last=2.66402e-6  gradnorm_last=0.1296  ||x-x*||=0.001871  feasibility_check=0.0  status=converged
+instance=40  seed=40  Adaptive adjustable + norm infinitysolved  iters=816  time=0.00788255s  f_last=9.79776e-6  gradnorm_last=0.1012  ||x-x*||=0.0001987  feasibility_check=0.0  status=converged
+instance=41  seed=41  Adaptive adjustable + norm one  solved  iters=350  time=0.0047317s  f_last=9.9828e-6  gradnorm_last=0.0527  ||x-x*||=0.003154  feasibility_check=0.0  status=converged
+instance=41  seed=41  Adaptive adjustable + norm two  solved  iters=1029  time=0.0152069s  f_last=9.9375e-6  gradnorm_last=0.004599  ||x-x*||=0.004458  feasibility_check=0.0  status=converged
+instance=41  seed=41  Adaptive adjustable + norm infinitysolved  iters=82588  time=1.17295s  f_last=9.99987e-6  gradnorm_last=0.008211  ||x-x*||=0.002545  feasibility_check=0.0  status=converged
+instance=42  seed=42  Adaptive adjustable + norm one  solved  iters=356  time=0.00589555s  f_last=2.93718e-6  gradnorm_last=0.06432  ||x-x*||=0.0002233  feasibility_check=0.0  status=converged
+instance=42  seed=42  Adaptive adjustable + norm two  solved  iters=1046  time=0.0122222s  f_last=9.69276e-6  gradnorm_last=0.06921  ||x-x*||=0.004326  feasibility_check=0.0  status=converged
+instance=42  seed=42  Adaptive adjustable + norm infinitysolved  iters=19051  time=0.282596s  f_last=9.99733e-6  gradnorm_last=0.01669  ||x-x*||=0.0012  feasibility_check=0.0  status=converged
+instance=43  seed=43  Adaptive adjustable + norm one  solved  iters=372  time=0.0055092s  f_last=7.13945e-6  gradnorm_last=0.06543  ||x-x*||=0.0003916  feasibility_check=0.0  status=converged
+instance=43  seed=43  Adaptive adjustable + norm two  solved  iters=712  time=0.00840185s  f_last=9.98845e-6  gradnorm_last=0.006445  ||x-x*||=0.00428  feasibility_check=0.0  status=converged
+instance=43  seed=43  Adaptive adjustable + norm infinitysolved  iters=1658  time=0.0215708s  f_last=9.91069e-6  gradnorm_last=0.07017  ||x-x*||=0.0002913  feasibility_check=0.0  status=converged
+instance=44  seed=44  Adaptive adjustable + norm one  solved  iters=327  time=0.00461365s  f_last=8.07183e-6  gradnorm_last=0.1088  ||x-x*||=0.0002168  feasibility_check=0.0  status=converged
+instance=44  seed=44  Adaptive adjustable + norm two  solved  iters=1081  time=0.0131058s  f_last=9.90078e-6  gradnorm_last=0.1445  ||x-x*||=0.004112  feasibility_check=0.0  status=converged
+instance=44  seed=44  Adaptive adjustable + norm infinitysolved  iters=20729  time=0.28055s  f_last=9.99613e-6  gradnorm_last=0.01913  ||x-x*||=0.001092  feasibility_check=0.0  status=converged
+instance=45  seed=45  Adaptive adjustable + norm one  solved  iters=381  time=0.00627825s  f_last=7.43279e-6  gradnorm_last=0.05357  ||x-x*||=0.0005515  feasibility_check=0.0  status=converged
+instance=45  seed=45  Adaptive adjustable + norm two  solved  iters=940  time=0.0109961s  f_last=9.90215e-6  gradnorm_last=0.1442  ||x-x*||=0.003963  feasibility_check=0.0  status=converged
+instance=45  seed=45  Adaptive adjustable + norm infinitysolved  iters=792  time=0.0093074s  f_last=9.83948e-6  gradnorm_last=0.1017  ||x-x*||=0.0001992  feasibility_check=0.0  status=converged
+instance=46  seed=46  Adaptive adjustable + norm one  solved  iters=359  time=0.00464085s  f_last=9.9936e-6  gradnorm_last=0.04687  ||x-x*||=0.0007712  feasibility_check=0.0  status=converged
+instance=46  seed=46  Adaptive adjustable + norm two  solved  iters=906  time=0.0107643s  f_last=4.44651e-6  gradnorm_last=0.0176  ||x-x*||=0.002975  feasibility_check=0.0  status=converged
+instance=46  seed=46  Adaptive adjustable + norm infinitysolved  iters=3304  time=0.040296s  f_last=9.99715e-6  gradnorm_last=0.04732  ||x-x*||=0.0004266  feasibility_check=0.0  status=converged
+instance=47  seed=47  Adaptive adjustable + norm one  solved  iters=371  time=0.0054281s  f_last=9.68026e-6  gradnorm_last=0.07975  ||x-x*||=0.0003877  feasibility_check=0.0  status=converged
+instance=47  seed=47  Adaptive adjustable + norm two  solved  iters=958  time=0.0117872s  f_last=9.59224e-6  gradnorm_last=0.04733  ||x-x*||=0.00411  feasibility_check=0.0  status=converged
+instance=47  seed=47  Adaptive adjustable + norm infinitysolved  iters=2334  time=0.0321794s  f_last=9.98401e-6  gradnorm_last=0.05697  ||x-x*||=0.0003532  feasibility_check=0.0  status=converged
+instance=48  seed=48  Adaptive adjustable + norm one  solved  iters=383  time=0.0060712s  f_last=8.30177e-6  gradnorm_last=0.0571  ||x-x*||=0.0004272  feasibility_check=0.0  status=converged
+instance=48  seed=48  Adaptive adjustable + norm two  solved  iters=854  time=0.0087486s  f_last=8.39485e-6  gradnorm_last=0.1297  ||x-x*||=0.003866  feasibility_check=0.0  status=converged
+instance=48  seed=48  Adaptive adjustable + norm infinitysolved  iters=173  time=0.0016282s  f_last=8.39537e-6  gradnorm_last=0.2175  ||x-x*||=8.337e-5  feasibility_check=0.0  status=converged
+instance=49  seed=49  Adaptive adjustable + norm one  solved  iters=359  time=0.005753s  f_last=9.92741e-6  gradnorm_last=0.08699  ||x-x*||=0.000369  feasibility_check=0.0  status=converged
+instance=49  seed=49  Adaptive adjustable + norm two  solved  iters=699  time=0.00698425s  f_last=8.40745e-6  gradnorm_last=0.1104  ||x-x*||=0.003562  feasibility_check=0.0  status=converged
+instance=49  seed=49  Adaptive adjustable + norm infinitysolved  iters=3390  time=0.0451515s  f_last=9.98831e-6  gradnorm_last=0.04725  ||x-x*||=0.0004264  feasibility_check=0.0  status=converged
+instance=50  seed=50  Adaptive adjustable + norm one  solved  iters=357  time=0.0054284s  f_last=8.09616e-6  gradnorm_last=0.08564  ||x-x*||=0.000272  feasibility_check=0.0  status=converged
+instance=50  seed=50  Adaptive adjustable + norm two  solved  iters=727  time=0.00839355s  f_last=5.75098e-6  gradnorm_last=0.1373  ||x-x*||=0.002996  feasibility_check=0.0  status=converged
+instance=50  seed=50  Adaptive adjustable + norm infinitysolved  iters=5086  time=0.05975s  f_last=9.97481e-6  gradnorm_last=0.03678  ||x-x*||=0.0005647  feasibility_check=0.0  status=converged
+instance=51  seed=51  Adaptive adjustable + norm one  solved  iters=366  time=0.00503075s  f_last=6.58956e-6  gradnorm_last=0.07645  ||x-x*||=0.0003236  feasibility_check=0.0  status=converged
+instance=51  seed=51  Adaptive adjustable + norm two  solved  iters=1277  time=0.0168478s  f_last=7.9444e-6  gradnorm_last=0.004322  ||x-x*||=0.003803  feasibility_check=0.0  status=converged
+instance=51  seed=51  Adaptive adjustable + norm infinitysolved  iters=479  time=0.0051898s  f_last=9.77795e-6  gradnorm_last=0.1346  ||x-x*||=0.00015  feasibility_check=0.0  status=converged
+instance=52  seed=52  Adaptive adjustable + norm one  solved  iters=374  time=0.005615s  f_last=7.80265e-6  gradnorm_last=0.05812  ||x-x*||=0.0005221  feasibility_check=0.0  status=converged
+instance=52  seed=52  Adaptive adjustable + norm two  solved  iters=1303  time=0.0186471s  f_last=9.99443e-6  gradnorm_last=0.01885  ||x-x*||=0.004209  feasibility_check=0.0  status=converged
+instance=52  seed=52  Adaptive adjustable + norm infinitysolved  iters=2887  time=0.0325396s  f_last=9.99386e-6  gradnorm_last=0.04716  ||x-x*||=0.0004265  feasibility_check=0.0  status=converged
+instance=53  seed=53  Adaptive adjustable + norm one  solved  iters=346  time=0.0045616s  f_last=9.73586e-6  gradnorm_last=0.07962  ||x-x*||=0.0005126  feasibility_check=0.0  status=converged
+instance=53  seed=53  Adaptive adjustable + norm two  solved  iters=968  time=0.0097083s  f_last=8.74013e-6  gradnorm_last=0.2013  ||x-x*||=0.003588  feasibility_check=0.0  status=converged
+instance=53  seed=53  Adaptive adjustable + norm infinitysolved  iters=2607  time=0.029835s  f_last=9.92936e-6  gradnorm_last=0.05319  ||x-x*||=0.0003867  feasibility_check=0.0  status=converged
+instance=54  seed=54  Adaptive adjustable + norm one  solved  iters=370  time=0.004969s  f_last=9.42489e-6  gradnorm_last=0.04269  ||x-x*||=0.001155  feasibility_check=0.0  status=converged
+instance=54  seed=54  Adaptive adjustable + norm two  solved  iters=741  time=0.0082135s  f_last=8.02927e-6  gradnorm_last=0.09889  ||x-x*||=0.003808  feasibility_check=0.0  status=converged
+instance=54  seed=54  Adaptive adjustable + norm infinitysolved  iters=48290  time=0.65305s  f_last=9.99957e-6  gradnorm_last=0.01093  ||x-x*||=0.001919  feasibility_check=0.0  status=converged
+instance=55  seed=55  Adaptive adjustable + norm one  solved  iters=338  time=0.00466925s  f_last=9.34648e-6  gradnorm_last=0.06625  ||x-x*||=0.0007289  feasibility_check=0.0  status=converged
+instance=55  seed=55  Adaptive adjustable + norm two  solved  iters=1098  time=0.0131229s  f_last=9.46535e-6  gradnorm_last=0.00465  ||x-x*||=0.004297  feasibility_check=0.0  status=converged
+instance=55  seed=55  Adaptive adjustable + norm infinityNOT solved  iters=100000  time=1.41469s  f_last=1.51949e-5  gradnorm_last=0.007673  ||x-x*||=0.004158  feasibility_check=0.0  status=repeat_failure  reasons=iteration_limit
+instance=56  seed=56  Adaptive adjustable + norm one  solved  iters=358  time=0.00676425s  f_last=9.30841e-6  gradnorm_last=0.06951  ||x-x*||=0.0009602  feasibility_check=0.0  status=converged
+instance=56  seed=56  Adaptive adjustable + norm two  solved  iters=941  time=0.0104766s  f_last=1.80946e-6  gradnorm_last=0.1095  ||x-x*||=0.001453  feasibility_check=0.0  status=converged
+instance=56  seed=56  Adaptive adjustable + norm infinitysolved  iters=48  time=0.00060435s  f_last=9.26565e-6  gradnorm_last=0.3856  ||x-x*||=5.695e-5  feasibility_check=0.0  status=converged
+instance=57  seed=57  Adaptive adjustable + norm one  solved  iters=359  time=0.006263s  f_last=8.32713e-6  gradnorm_last=0.07454  ||x-x*||=0.0004556  feasibility_check=0.0  status=converged
+instance=57  seed=57  Adaptive adjustable + norm two  solved  iters=760  time=0.0092068s  f_last=7.69239e-6  gradnorm_last=0.007951  ||x-x*||=0.003902  feasibility_check=0.0  status=converged
+instance=57  seed=57  Adaptive adjustable + norm infinityNOT solved  iters=100000  time=1.54827s  f_last=2.44142e-5  gradnorm_last=0.01118  ||x-x*||=0.004368  feasibility_check=0.0  status=repeat_failure  reasons=iteration_limit
+instance=58  seed=58  Adaptive adjustable + norm one  solved  iters=350  time=0.00583255s  f_last=9.67244e-6  gradnorm_last=0.07923  ||x-x*||=0.0005194  feasibility_check=0.0  status=converged
+instance=58  seed=58  Adaptive adjustable + norm two  solved  iters=871  time=0.0117188s  f_last=9.73195e-6  gradnorm_last=0.004441  ||x-x*||=0.004403  feasibility_check=0.0  status=converged
+instance=58  seed=58  Adaptive adjustable + norm infinitysolved  iters=7275  time=0.105442s  f_last=9.97551e-6  gradnorm_last=0.03053  ||x-x*||=0.0006816  feasibility_check=0.0  status=converged
+instance=59  seed=59  Adaptive adjustable + norm one  solved  iters=384  time=0.0062752s  f_last=9.44741e-6  gradnorm_last=0.05756  ||x-x*||=0.0006535  feasibility_check=0.0  status=converged
+instance=59  seed=59  Adaptive adjustable + norm two  solved  iters=1527  time=0.0220213s  f_last=9.6239e-6  gradnorm_last=0.01264  ||x-x*||=0.004105  feasibility_check=0.0  status=converged
+instance=59  seed=59  Adaptive adjustable + norm infinitysolved  iters=2541  time=0.0353344s  f_last=9.95791e-6  gradnorm_last=0.05665  ||x-x*||=0.0003528  feasibility_check=0.0  status=converged
+instance=60  seed=60  Adaptive adjustable + norm one  solved  iters=384  time=0.0057899s  f_last=7.07913e-6  gradnorm_last=0.04873  ||x-x*||=0.0005373  feasibility_check=0.0  status=converged
+instance=60  seed=60  Adaptive adjustable + norm two  solved  iters=708  time=0.0069112s  f_last=8.52441e-6  gradnorm_last=0.0876  ||x-x*||=0.002939  feasibility_check=0.0  status=converged
+instance=60  seed=60  Adaptive adjustable + norm infinitysolved  iters=3209  time=0.0377824s  f_last=9.98708e-6  gradnorm_last=0.04717  ||x-x*||=0.0004264  feasibility_check=0.0  status=converged
+instance=61  seed=61  Adaptive adjustable + norm one  solved  iters=348  time=0.00490715s  f_last=3.78428e-6  gradnorm_last=0.05454  ||x-x*||=0.0002565  feasibility_check=0.0  status=converged
+instance=61  seed=61  Adaptive adjustable + norm two  solved  iters=1272  time=0.0154194s  f_last=5.34317e-6  gradnorm_last=0.06029  ||x-x*||=0.003213  feasibility_check=0.0  status=converged
+instance=61  seed=61  Adaptive adjustable + norm infinitysolved  iters=67939  time=0.973972s  f_last=9.99947e-6  gradnorm_last=0.00463  ||x-x*||=0.004472  feasibility_check=0.0  status=converged
+instance=62  seed=62  Adaptive adjustable + norm one  solved  iters=351  time=0.0051266s  f_last=3.31641e-6  gradnorm_last=0.05696  ||x-x*||=0.0001986  feasibility_check=0.0  status=converged
+instance=62  seed=62  Adaptive adjustable + norm two  solved  iters=967  time=0.0126199s  f_last=6.48778e-6  gradnorm_last=0.1175  ||x-x*||=0.003306  feasibility_check=0.0  status=converged
+instance=62  seed=62  Adaptive adjustable + norm infinitysolved  iters=579  time=0.00494115s  f_last=9.6404e-6  gradnorm_last=0.1223  ||x-x*||=0.0001633  feasibility_check=0.0  status=converged
+instance=63  seed=63  Adaptive adjustable + norm one  solved  iters=383  time=0.0045637s  f_last=8.05066e-7  gradnorm_last=0.02401  ||x-x*||=0.0001178  feasibility_check=0.0  status=converged
+instance=63  seed=63  Adaptive adjustable + norm two  solved  iters=1501  time=0.0182633s  f_last=4.82012e-6  gradnorm_last=0.07759  ||x-x*||=0.002888  feasibility_check=0.0  status=converged
+instance=63  seed=63  Adaptive adjustable + norm infinitysolved  iters=86927  time=1.2612s  f_last=9.99948e-6  gradnorm_last=0.006792  ||x-x*||=0.003071  feasibility_check=0.0  status=converged
+instance=64  seed=64  Adaptive adjustable + norm one  solved  iters=342  time=0.0046494s  f_last=5.27608e-6  gradnorm_last=0.05244  ||x-x*||=0.0004927  feasibility_check=0.0  status=converged
+instance=64  seed=64  Adaptive adjustable + norm two  solved  iters=717  time=0.00813085s  f_last=3.43873e-6  gradnorm_last=0.2185  ||x-x*||=0.001442  feasibility_check=0.0  status=converged
+instance=64  seed=64  Adaptive adjustable + norm infinitysolved  iters=135  time=0.0014305s  f_last=8.46018e-6  gradnorm_last=0.217  ||x-x*||=8.216e-5  feasibility_check=0.0  status=converged
+instance=65  seed=65  Adaptive adjustable + norm one  solved  iters=376  time=0.00524795s  f_last=4.68931e-6  gradnorm_last=0.04764  ||x-x*||=0.0003488  feasibility_check=0.0  status=converged
+instance=65  seed=65  Adaptive adjustable + norm two  solved  iters=1383  time=0.0146904s  f_last=2.94442e-6  gradnorm_last=0.06308  ||x-x*||=0.002341  feasibility_check=0.0  status=converged
+instance=65  seed=65  Adaptive adjustable + norm infinitysolved  iters=35  time=0.00039535s  f_last=8.84494e-6  gradnorm_last=0.4131  ||x-x*||=5.313e-5  feasibility_check=0.0  status=converged
+instance=66  seed=66  Adaptive adjustable + norm one  solved  iters=378  time=0.0056334s  f_last=1.19212e-6  gradnorm_last=0.03643  ||x-x*||=0.0001043  feasibility_check=0.0  status=converged
+instance=66  seed=66  Adaptive adjustable + norm two  solved  iters=985  time=0.010519s  f_last=9.42445e-6  gradnorm_last=0.004456  ||x-x*||=0.004267  feasibility_check=0.0  status=converged
+instance=66  seed=66  Adaptive adjustable + norm infinitysolved  iters=184  time=0.00136375s  f_last=9.38817e-6  gradnorm_last=0.2053  ||x-x*||=9.22e-5  feasibility_check=0.0  status=converged
+instance=67  seed=67  Adaptive adjustable + norm one  solved  iters=348  time=0.0042629s  f_last=8.26017e-6  gradnorm_last=0.07744  ||x-x*||=0.0003745  feasibility_check=0.0  status=converged
+instance=67  seed=67  Adaptive adjustable + norm two  solved  iters=677  time=0.0072418s  f_last=8.5912e-6  gradnorm_last=0.04076  ||x-x*||=0.003921  feasibility_check=0.0  status=converged
+instance=67  seed=67  Adaptive adjustable + norm infinitysolved  iters=270  time=0.00302685s  f_last=9.86153e-6  gradnorm_last=0.1783  ||x-x*||=0.0001145  feasibility_check=0.0  status=converged
+instance=68  seed=68  Adaptive adjustable + norm one  solved  iters=375  time=0.00516765s  f_last=9.32219e-6  gradnorm_last=0.05732  ||x-x*||=0.0006075  feasibility_check=0.0  status=converged
+instance=68  seed=68  Adaptive adjustable + norm two  solved  iters=893  time=0.0112029s  f_last=7.96543e-6  gradnorm_last=0.07747  ||x-x*||=0.003914  feasibility_check=0.0  status=converged
+instance=68  seed=68  Adaptive adjustable + norm infinitysolved  iters=4795  time=0.0595121s  f_last=9.99055e-6  gradnorm_last=0.02276  ||x-x*||=0.0009044  feasibility_check=0.0  status=converged
+instance=69  seed=69  Adaptive adjustable + norm one  solved  iters=332  time=0.0044016s  f_last=9.2195e-6  gradnorm_last=0.08735  ||x-x*||=0.0004054  feasibility_check=0.0  status=converged
+instance=69  seed=69  Adaptive adjustable + norm two  solved  iters=1008  time=0.0125931s  f_last=7.4199e-6  gradnorm_last=0.1524  ||x-x*||=0.003404  feasibility_check=0.0  status=converged
+instance=69  seed=69  Adaptive adjustable + norm infinitysolved  iters=22115  time=0.309531s  f_last=9.99838e-6  gradnorm_last=0.01577  ||x-x*||=0.001318  feasibility_check=0.0  status=converged
+instance=70  seed=70  Adaptive adjustable + norm one  solved  iters=369  time=0.00610045s  f_last=9.18213e-6  gradnorm_last=0.05678  ||x-x*||=0.000546  feasibility_check=0.0  status=converged
+instance=70  seed=70  Adaptive adjustable + norm two  solved  iters=910  time=0.0115896s  f_last=9.07983e-6  gradnorm_last=0.1737  ||x-x*||=0.003888  feasibility_check=0.0  status=converged
+instance=70  seed=70  Adaptive adjustable + norm infinitysolved  iters=20606  time=0.282687s  f_last=9.99753e-6  gradnorm_last=0.01575  ||x-x*||=0.001318  feasibility_check=0.0  status=converged
+instance=71  seed=71  Adaptive adjustable + norm one  solved  iters=359  time=0.00595085s  f_last=5.03195e-6  gradnorm_last=0.04621  ||x-x*||=0.0003298  feasibility_check=0.0  status=converged
+instance=71  seed=71  Adaptive adjustable + norm two  solved  iters=1290  time=0.0164894s  f_last=6.93626e-6  gradnorm_last=0.009297  ||x-x*||=0.003715  feasibility_check=0.0  status=converged
+instance=71  seed=71  Adaptive adjustable + norm infinitysolved  iters=492  time=0.00542175s  f_last=9.71662e-6  gradnorm_last=0.1222  ||x-x*||=0.000164  feasibility_check=0.0  status=converged
+instance=72  seed=72  Adaptive adjustable + norm one  solved  iters=330  time=0.00492245s  f_last=9.80631e-6  gradnorm_last=0.05767  ||x-x*||=0.000679  feasibility_check=0.0  status=converged
+instance=72  seed=72  Adaptive adjustable + norm two  solved  iters=899  time=0.0119379s  f_last=9.84741e-6  gradnorm_last=0.004511  ||x-x*||=0.004402  feasibility_check=0.0  status=converged
+instance=72  seed=72  Adaptive adjustable + norm infinitysolved  iters=1094  time=0.0141632s  f_last=9.94662e-6  gradnorm_last=0.07533  ||x-x*||=0.0002659  feasibility_check=0.0  status=converged
+instance=73  seed=73  Adaptive adjustable + norm one  solved  iters=328  time=0.00446865s  f_last=8.08161e-6  gradnorm_last=0.06374  ||x-x*||=0.0004009  feasibility_check=0.0  status=converged
+instance=73  seed=73  Adaptive adjustable + norm two  solved  iters=919  time=0.0128037s  f_last=8.98737e-6  gradnorm_last=0.004585  ||x-x*||=0.004007  feasibility_check=0.0  status=converged
+instance=73  seed=73  Adaptive adjustable + norm infinitysolved  iters=172  time=0.00169575s  f_last=9.05342e-6  gradnorm_last=0.2261  ||x-x*||=8.403e-5  feasibility_check=0.0  status=converged
+instance=74  seed=74  Adaptive adjustable + norm one  solved  iters=384  time=0.0056085s  f_last=9.8127e-6  gradnorm_last=0.04479  ||x-x*||=0.001084  feasibility_check=0.0  status=converged
+instance=74  seed=74  Adaptive adjustable + norm two  solved  iters=987  time=0.0107386s  f_last=3.83596e-7  gradnorm_last=0.05511  ||x-x*||=0.0006276  feasibility_check=0.0  status=converged
+instance=74  seed=74  Adaptive adjustable + norm infinitysolved  iters=2709  time=0.0297306s  f_last=9.96451e-6  gradnorm_last=0.033  ||x-x*||=0.0006783  feasibility_check=0.0  status=converged
+instance=75  seed=75  Adaptive adjustable + norm one  solved  iters=385  time=0.00645545s  f_last=9.89412e-6  gradnorm_last=0.03316  ||x-x*||=0.001304  feasibility_check=0.0  status=converged
+instance=75  seed=75  Adaptive adjustable + norm two  solved  iters=952  time=0.0116318s  f_last=9.58274e-6  gradnorm_last=0.004476  ||x-x*||=0.004296  feasibility_check=0.0  status=converged
+instance=75  seed=75  Adaptive adjustable + norm infinitysolved  iters=877  time=0.008945s  f_last=9.78704e-6  gradnorm_last=0.09298  ||x-x*||=0.0002182  feasibility_check=0.0  status=converged
+instance=76  seed=76  Adaptive adjustable + norm one  solved  iters=355  time=0.00552045s  f_last=9.85243e-6  gradnorm_last=0.05077  ||x-x*||=0.001324  feasibility_check=0.0  status=converged
+instance=76  seed=76  Adaptive adjustable + norm two  solved  iters=875  time=0.0128993s  f_last=9.73637e-6  gradnorm_last=0.2052  ||x-x*||=0.003875  feasibility_check=0.0  status=converged
+instance=76  seed=76  Adaptive adjustable + norm infinitysolved  iters=88593  time=1.34792s  f_last=9.99982e-6  gradnorm_last=0.004497  ||x-x*||=0.004472  feasibility_check=0.0  status=converged
+instance=77  seed=77  Adaptive adjustable + norm one  solved  iters=334  time=0.0052526s  f_last=7.3616e-6  gradnorm_last=0.09081  ||x-x*||=0.0002617  feasibility_check=0.0  status=converged
+instance=77  seed=77  Adaptive adjustable + norm two  solved  iters=986  time=0.0108054s  f_last=9.98862e-6  gradnorm_last=0.004856  ||x-x*||=0.004307  feasibility_check=0.0  status=converged
+instance=77  seed=77  Adaptive adjustable + norm infinitysolved  iters=149  time=0.00131705s  f_last=9.90486e-6  gradnorm_last=0.232  ||x-x*||=8.66e-5  feasibility_check=0.0  status=converged
+instance=78  seed=78  Adaptive adjustable + norm one  solved  iters=352  time=0.0051957s  f_last=4.313e-6  gradnorm_last=0.06133  ||x-x*||=0.0003055  feasibility_check=0.0  status=converged
+instance=78  seed=78  Adaptive adjustable + norm two  solved  iters=1149  time=0.0144614s  f_last=5.83438e-6  gradnorm_last=0.1601  ||x-x*||=0.002904  feasibility_check=0.0  status=converged
+instance=78  seed=78  Adaptive adjustable + norm infinitysolved  iters=454  time=0.0043476s  f_last=9.62273e-6  gradnorm_last=0.1336  ||x-x*||=0.0001485  feasibility_check=0.0  status=converged
+instance=79  seed=79  Adaptive adjustable + norm one  solved  iters=360  time=0.00494535s  f_last=9.85756e-6  gradnorm_last=0.07068  ||x-x*||=0.0004615  feasibility_check=0.0  status=converged
+instance=79  seed=79  Adaptive adjustable + norm two  solved  iters=944  time=0.0115645s  f_last=7.26203e-6  gradnorm_last=0.1545  ||x-x*||=0.003241  feasibility_check=0.0  status=converged
+instance=79  seed=79  Adaptive adjustable + norm infinitysolved  iters=177  time=0.00145535s  f_last=9.62259e-6  gradnorm_last=0.2109  ||x-x*||=9.693e-5  feasibility_check=0.0  status=converged
+instance=80  seed=80  Adaptive adjustable + norm one  solved  iters=361  time=0.0069972s  f_last=9.79603e-6  gradnorm_last=0.04263  ||x-x*||=0.001132  feasibility_check=0.0  status=converged
+instance=80  seed=80  Adaptive adjustable + norm two  solved  iters=1151  time=0.0136172s  f_last=7.65931e-6  gradnorm_last=0.145  ||x-x*||=0.003399  feasibility_check=0.0  status=converged
+instance=80  seed=80  Adaptive adjustable + norm infinitysolved  iters=347  time=0.00358735s  f_last=9.67613e-6  gradnorm_last=0.1619  ||x-x*||=0.0001242  feasibility_check=0.0  status=converged
+instance=81  seed=81  Adaptive adjustable + norm one  solved  iters=344  time=0.0051747s  f_last=9.29144e-6  gradnorm_last=0.07485  ||x-x*||=0.0006521  feasibility_check=0.0  status=converged
+instance=81  seed=81  Adaptive adjustable + norm two  solved  iters=737  time=0.00812135s  f_last=3.45009e-7  gradnorm_last=0.03621  ||x-x*||=0.000728  feasibility_check=0.0  status=converged
+instance=81  seed=81  Adaptive adjustable + norm infinitysolved  iters=20329  time=0.336301s  f_last=9.99498e-6  gradnorm_last=0.01587  ||x-x*||=0.001318  feasibility_check=0.0  status=converged
+instance=82  seed=82  Adaptive adjustable + norm one  solved  iters=349  time=0.00552845s  f_last=9.71479e-6  gradnorm_last=0.05032  ||x-x*||=0.0009223  feasibility_check=0.0  status=converged
+instance=82  seed=82  Adaptive adjustable + norm two  solved  iters=1307  time=0.0179863s  f_last=8.13336e-6  gradnorm_last=0.004065  ||x-x*||=0.004017  feasibility_check=0.0  status=converged
+instance=82  seed=82  Adaptive adjustable + norm infinitysolved  iters=117  time=0.0013097s  f_last=8.45976e-6  gradnorm_last=0.265  ||x-x*||=6.764e-5  feasibility_check=0.0  status=converged
+instance=83  seed=83  Adaptive adjustable + norm one  solved  iters=346  time=0.0049621s  f_last=9.2022e-6  gradnorm_last=0.06117  ||x-x*||=0.0005869  feasibility_check=0.0  status=converged
+instance=83  seed=83  Adaptive adjustable + norm two  solved  iters=1044  time=0.0134072s  f_last=1.40508e-6  gradnorm_last=0.06989  ||x-x*||=0.001524  feasibility_check=0.0  status=converged
+instance=83  seed=83  Adaptive adjustable + norm infinitysolved  iters=284  time=0.00296555s  f_last=9.55421e-6  gradnorm_last=0.1763  ||x-x*||=0.0001121  feasibility_check=0.0  status=converged
+instance=84  seed=84  Adaptive adjustable + norm one  solved  iters=320  time=0.0062735s  f_last=3.78845e-6  gradnorm_last=0.05053  ||x-x*||=0.000483  feasibility_check=0.0  status=converged
+instance=84  seed=84  Adaptive adjustable + norm two  solved  iters=1066  time=0.0161291s  f_last=4.06702e-6  gradnorm_last=0.08168  ||x-x*||=0.00272  feasibility_check=0.0  status=converged
+instance=84  seed=84  Adaptive adjustable + norm infinitysolved  iters=2420  time=0.0299612s  f_last=9.93966e-6  gradnorm_last=0.05831  ||x-x*||=0.0003522  feasibility_check=0.0  status=converged
+instance=85  seed=85  Adaptive adjustable + norm one  solved  iters=322  time=0.00540095s  f_last=9.72699e-6  gradnorm_last=0.08218  ||x-x*||=0.0004276  feasibility_check=0.0  status=converged
+instance=85  seed=85  Adaptive adjustable + norm two  solved  iters=606  time=0.00863625s  f_last=9.92189e-6  gradnorm_last=0.009443  ||x-x*||=0.003821  feasibility_check=0.0  status=converged
+instance=85  seed=85  Adaptive adjustable + norm infinitysolved  iters=37  time=0.00047485s  f_last=8.32832e-6  gradnorm_last=0.3997  ||x-x*||=4.89e-5  feasibility_check=0.0  status=converged
+instance=86  seed=86  Adaptive adjustable + norm one  solved  iters=373  time=0.005284s  f_last=8.37121e-6  gradnorm_last=0.05568  ||x-x*||=0.0006366  feasibility_check=0.0  status=converged
+instance=86  seed=86  Adaptive adjustable + norm two  solved  iters=1344  time=0.0172039s  f_last=6.19525e-6  gradnorm_last=0.233  ||x-x*||=0.002559  feasibility_check=0.0  status=converged
+instance=86  seed=86  Adaptive adjustable + norm infinitysolved  iters=1437  time=0.0207155s  f_last=9.98149e-6  gradnorm_last=0.06245  ||x-x*||=0.0003215  feasibility_check=0.0  status=converged
+instance=87  seed=87  Adaptive adjustable + norm one  solved  iters=345  time=0.0045078s  f_last=9.95867e-6  gradnorm_last=0.06372  ||x-x*||=0.0005337  feasibility_check=0.0  status=converged
+instance=87  seed=87  Adaptive adjustable + norm two  solved  iters=1035  time=0.0120686s  f_last=7.57939e-6  gradnorm_last=0.1798  ||x-x*||=0.003314  feasibility_check=0.0  status=converged
+instance=87  seed=87  Adaptive adjustable + norm infinitysolved  iters=168  time=0.001917s  f_last=9.62561e-6  gradnorm_last=0.2286  ||x-x*||=8.479e-5  feasibility_check=0.0  status=converged
+instance=88  seed=88  Adaptive adjustable + norm one  solved  iters=337  time=0.0058008s  f_last=9.99759e-6  gradnorm_last=0.07929  ||x-x*||=0.0004803  feasibility_check=0.0  status=converged
+instance=88  seed=88  Adaptive adjustable + norm two  solved  iters=922  time=0.0102757s  f_last=9.73373e-6  gradnorm_last=0.0743  ||x-x*||=0.004117  feasibility_check=0.0  status=converged
+instance=88  seed=88  Adaptive adjustable + norm infinitysolved  iters=622  time=0.0074564s  f_last=9.71556e-6  gradnorm_last=0.111  ||x-x*||=0.0001802  feasibility_check=0.0  status=converged
+instance=89  seed=89  Adaptive adjustable + norm one  solved  iters=343  time=0.00591395s  f_last=8.14424e-6  gradnorm_last=0.07318  ||x-x*||=0.0003067  feasibility_check=0.0  status=converged
+instance=89  seed=89  Adaptive adjustable + norm two  solved  iters=867  time=0.00907705s  f_last=9.3038e-6  gradnorm_last=0.1299  ||x-x*||=0.003856  feasibility_check=0.0  status=converged
+instance=89  seed=89  Adaptive adjustable + norm infinitysolved  iters=706  time=0.005274s  f_last=9.88081e-6  gradnorm_last=0.1022  ||x-x*||=0.0001995  feasibility_check=0.0  status=converged
+instance=90  seed=90  Adaptive adjustable + norm one  solved  iters=356  time=0.00594965s  f_last=8.51222e-6  gradnorm_last=0.05506  ||x-x*||=0.0005567  feasibility_check=0.0  status=converged
+instance=90  seed=90  Adaptive adjustable + norm two  solved  iters=803  time=0.0100411s  f_last=9.96988e-6  gradnorm_last=0.02895  ||x-x*||=0.004286  feasibility_check=0.0  status=converged
+instance=90  seed=90  Adaptive adjustable + norm infinitysolved  iters=2413  time=0.0345058s  f_last=9.96532e-6  gradnorm_last=0.04832  ||x-x*||=0.0004257  feasibility_check=0.0  status=converged
+instance=91  seed=91  Adaptive adjustable + norm one  solved  iters=352  time=0.0065497s  f_last=6.10567e-6  gradnorm_last=0.07686  ||x-x*||=0.0002847  feasibility_check=0.0  status=converged
+instance=91  seed=91  Adaptive adjustable + norm two  solved  iters=1000  time=0.0123634s  f_last=2.32054e-6  gradnorm_last=0.002944  ||x-x*||=0.002085  feasibility_check=0.0  status=converged
+instance=91  seed=91  Adaptive adjustable + norm infinitysolved  iters=84309  time=1.29465s  f_last=9.99996e-6  gradnorm_last=0.004958  ||x-x*||=0.004071  feasibility_check=0.0  status=converged
+instance=92  seed=92  Adaptive adjustable + norm one  solved  iters=361  time=0.00518635s  f_last=4.00336e-6  gradnorm_last=0.06791  ||x-x*||=0.0002427  feasibility_check=0.0  status=converged
+instance=92  seed=92  Adaptive adjustable + norm two  solved  iters=1243  time=0.0130706s  f_last=9.70085e-6  gradnorm_last=0.0518  ||x-x*||=0.004123  feasibility_check=0.0  status=converged
+instance=92  seed=92  Adaptive adjustable + norm infinitysolved  iters=60016  time=0.856198s  f_last=9.99952e-6  gradnorm_last=0.008981  ||x-x*||=0.002316  feasibility_check=0.0  status=converged
+instance=93  seed=93  Adaptive adjustable + norm one  solved  iters=337  time=0.0055062s  f_last=9.91025e-6  gradnorm_last=0.09927  ||x-x*||=0.0003524  feasibility_check=0.0  status=converged
+instance=93  seed=93  Adaptive adjustable + norm two  solved  iters=1488  time=0.0171686s  f_last=7.10742e-6  gradnorm_last=0.1316  ||x-x*||=0.003516  feasibility_check=0.0  status=converged
+instance=93  seed=93  Adaptive adjustable + norm infinitysolved  iters=577  time=0.0052252s  f_last=9.66282e-6  gradnorm_last=0.122  ||x-x*||=0.0001635  feasibility_check=0.0  status=converged
+instance=94  seed=94  Adaptive adjustable + norm one  solved  iters=345  time=0.0043668s  f_last=5.77935e-6  gradnorm_last=0.06452  ||x-x*||=0.0002975  feasibility_check=0.0  status=converged
+instance=94  seed=94  Adaptive adjustable + norm two  solved  iters=1037  time=0.0127566s  f_last=9.97909e-6  gradnorm_last=0.008329  ||x-x*||=0.004355  feasibility_check=0.0  status=converged
+instance=94  seed=94  Adaptive adjustable + norm infinitysolved  iters=141  time=0.00174665s  f_last=9.52954e-6  gradnorm_last=0.2501  ||x-x*||=7.847e-5  feasibility_check=0.0  status=converged
+instance=95  seed=95  Adaptive adjustable + norm one  solved  iters=335  time=0.0058073s  f_last=9.82615e-6  gradnorm_last=0.08906  ||x-x*||=0.0003761  feasibility_check=0.0  status=converged
+instance=95  seed=95  Adaptive adjustable + norm two  solved  iters=1160  time=0.0155062s  f_last=8.36938e-6  gradnorm_last=0.1528  ||x-x*||=0.003794  feasibility_check=0.0  status=converged
+instance=95  seed=95  Adaptive adjustable + norm infinitysolved  iters=5015  time=0.070811s  f_last=9.99033e-6  gradnorm_last=0.02945  ||x-x*||=0.0006823  feasibility_check=0.0  status=converged
+instance=96  seed=96  Adaptive adjustable + norm one  solved  iters=369  time=0.0055592s  f_last=8.52539e-6  gradnorm_last=0.05576  ||x-x*||=0.0006334  feasibility_check=0.0  status=converged
+instance=96  seed=96  Adaptive adjustable + norm two  solved  iters=513  time=0.00550435s  f_last=9.63948e-6  gradnorm_last=0.1441  ||x-x*||=0.003819  feasibility_check=0.0  status=converged
+instance=96  seed=96  Adaptive adjustable + norm infinitysolved  iters=97  time=0.00104465s  f_last=8.7121e-6  gradnorm_last=0.2884  ||x-x*||=6.734e-5  feasibility_check=0.0  status=converged
+instance=97  seed=97  Adaptive adjustable + norm one  solved  iters=342  time=0.0057485s  f_last=6.78824e-6  gradnorm_last=0.06384  ||x-x*||=0.0004225  feasibility_check=0.0  status=converged
+instance=97  seed=97  Adaptive adjustable + norm two  solved  iters=789  time=0.00829005s  f_last=3.0446e-6  gradnorm_last=0.03909  ||x-x*||=0.00232  feasibility_check=0.0  status=converged
+instance=97  seed=97  Adaptive adjustable + norm infinitysolved  iters=17689  time=0.233519s  f_last=9.99999e-6  gradnorm_last=0.01527  ||x-x*||=0.001318  feasibility_check=0.0  status=converged
+instance=98  seed=98  Adaptive adjustable + norm one  solved  iters=355  time=0.00509705s  f_last=2.22394e-6  gradnorm_last=0.0438  ||x-x*||=0.000173  feasibility_check=0.0  status=converged
+instance=98  seed=98  Adaptive adjustable + norm two  solved  iters=805  time=0.0078355s  f_last=4.87121e-6  gradnorm_last=0.003139  ||x-x*||=0.003115  feasibility_check=0.0  status=converged
+instance=98  seed=98  Adaptive adjustable + norm infinitysolved  iters=81458  time=1.12875s  f_last=9.99958e-6  gradnorm_last=0.008125  ||x-x*||=0.002544  feasibility_check=0.0  status=converged
+instance=99  seed=99  Adaptive adjustable + norm one  solved  iters=319  time=0.00517585s  f_last=9.4273e-6  gradnorm_last=0.07267  ||x-x*||=0.0006522  feasibility_check=0.0  status=converged
+instance=99  seed=99  Adaptive adjustable + norm two  solved  iters=1569  time=0.0204995s  f_last=3.41157e-6  gradnorm_last=0.1014  ||x-x*||=0.002407  feasibility_check=0.0  status=converged
+instance=99  seed=99  Adaptive adjustable + norm infinitysolved  iters=15464  time=0.218919s  f_last=9.99381e-6  gradnorm_last=0.02096  ||x-x*||=0.0009937  feasibility_check=0.0  status=converged
+instance=100  seed=100  Adaptive adjustable + norm one  solved  iters=387  time=0.0048763s  f_last=3.74557e-6  gradnorm_last=0.04417  ||x-x*||=0.000345  feasibility_check=0.0  status=converged
+instance=100  seed=100  Adaptive adjustable + norm two  solved  iters=1043  time=0.0127916s  f_last=9.77682e-6  gradnorm_last=0.004863  ||x-x*||=0.004132  feasibility_check=0.0  status=converged
+instance=100  seed=100  Adaptive adjustable + norm infinitysolved  iters=589  time=0.0048299s  f_last=9.96466e-6  gradnorm_last=0.1209  ||x-x*||=0.0001663  feasibility_check=0.0  status=converged

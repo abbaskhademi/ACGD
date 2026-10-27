@@ -348,9 +348,9 @@ plot!(p,
 )
 
 method_colors = Dict(
-    "Adaptive adjustable + norm one"   => :teal,
+    "Adaptive adjustable + norm one"   => :mediumpurple,
     "Adaptive adjustable + norm two"   => :green,
-    "Adaptive adjustable + norm infinity" => :dodgerblue,
+    "Adaptive adjustable + norm infinity" => :darkslategray,
 )
 for (i, series) in enumerate(p.series_list)
     series[:linecolor] = method_colors[method_order[i]]
