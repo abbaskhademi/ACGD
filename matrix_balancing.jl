@@ -66,7 +66,7 @@ function conditional_gradient_adaptive(f, grad_f, lmo, x0, gamma;
         epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
-        method=:adaptive, constrained=true, stop_rule=:either,
+        method=:adaptive, constrained=true, stop_rule=:objective,
         epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, gamma=gamma, kwargs...)
     return r
 end
@@ -75,7 +75,7 @@ function conditional_gradient_adjustable_scaling(f, grad_f, lmo, x0, gamma;
         epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
-        method=:adjustable, constrained=true, stop_rule=:either,
+        method=:adjustable, constrained=true, stop_rule=:objective,
         epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, gamma=gamma, kwargs...)
     return r
 end
@@ -84,7 +84,7 @@ function conditional_gradient_auto_conditioned(f, grad_f, lmo, x0;
         epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
-        method=:auto, constrained=true, stop_rule=:either,
+        method=:auto, constrained=true, stop_rule=:objective,
         epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, kwargs...)
     return r
 end
@@ -93,7 +93,7 @@ function conditional_gradient_pure_backtracking(f, grad_f, lmo, x0;
         epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
-        method=:backtracking, constrained=true, stop_rule=:either,
+        method=:backtracking, constrained=true, stop_rule=:objective,
         epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, kwargs...)
     return r
 end
@@ -102,7 +102,7 @@ function conditional_gradient_open(f, grad_f, lmo, x0;
         epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
-        method=:open, constrained=true, stop_rule=:either,
+        method=:open, constrained=true, stop_rule=:objective,
         epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, kwargs...)
     return r
 end
@@ -111,7 +111,7 @@ function conditional_gradient_short_step(f, grad_f, lmo, x0, L;
         epsilon=1e-5, delta=1e-10, beta=2.0, max_iter_cap=parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")),
         max_time=Inf, fstar=0.0, kwargs...)
     r = ACGDSolvers.solve(f, grad_f, lmo, x0;
-        method=:short, constrained=true, stop_rule=:either,
+        method=:short, constrained=true, stop_rule=:objective,
         epsilon=epsilon, fstar=fstar, delta=delta, beta=beta, max_iter_cap=max_iter_cap, max_time=max_time, L=L, kwargs...)
     return r
 end
@@ -147,7 +147,7 @@ report_lines = String[]                      # text report accumulator
 
 write_run_manifest(joinpath(output_dir, "run_manifest.toml"), Dict(
     "problem" => problem_name, "script" => basename(@__FILE__),
-    "stop_rule" => "either", "epsilon" => 1e-5,
+    "stop_rule" => "objective", "epsilon" => 1e-5,
     "max_iter_cap" => parse(Int, get(ENV, "ACGD_MAX_ITER", "100000")), "max_time" => Inf,
     "open_schedule" => "2/(k+2)",
     "gamma" => gamma0, "beta" => 2.0, "eta" => 0.9, "block_size" => 10,
