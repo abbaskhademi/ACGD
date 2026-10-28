@@ -18,17 +18,17 @@ gradient norm for unconstrained problems. “Either” is logical OR. At the bas
 gaps were generally evaluated before the step and objective values after it; that
 index mismatch must not be carried into the corrected definition of success.
 
-| Benchmark | Historical criterion | Reference value | Evidence at baseline |
-| --- | --- | --- | --- |
-| Lasso | Either `G <= 1e-5` or `f-fstar <= 1e-5` | `fstar=0`, attained by planted feasible sparse solution | `lasso_problem.jl:109,294,394` |
-| Matrix balancing | Either `G <= 1e-5` or `f-fstar <= 1e-5` | `fstar=sum(A)` for symmetric nonnegative A | `matrix_balancing.jl:45,100,398` |
-| Matrix factorization | Either `G <= 1e-5` or `f-fstar <= 1e-5` | `fstar=0`, attained by planted feasible factors | `matrix_factorization.jl:83,150,368` |
-| StQO | `G <= 1e-3` | Unknown; stored as `NaN` | `STQO.jl:80,140` |
-| Traffic | Either `G <= 1e-3` or `f-0 <= 1e-3` | Zero is a lower bound, **not** a known optimum | `traffic_assignment.jl:127,175,359` |
-| Sigmoid regression | `G <= 1e-3` | Unknown; stored as `NaN` | `Sigmoid.jl:94,148,367` |
-| Least squares | `f-fstar <= 1e-5` only | Objective at the direct least-squares solution `A\b`, including noise | `Least_Squares.jl:56–57,113,250,413` |
-| Regularized logistic regression | `g <= 1e-3` only | Unknown; stored as `NaN` | `Logistic_Regression_with_Regularization.jl:73,138,440` |
-| Power shifted quadratic | `f-fstar <= 1e-5` only | `fstar=c^p` | `Power_Shifted_Quadratic.jl:47,110,247,410` |
+| Benchmark | Historical criterion | Current configured criterion | Reference value | Evidence at baseline |
+| --- | --- | --- | --- | --- |
+| Lasso | Either `G <= 1e-5` or `f-fstar <= 1e-5` | Objective: `f-fstar <= 1e-5` | `fstar=0`, attained by planted feasible sparse solution | `lasso_problem.jl:109,294,394` |
+| Matrix balancing | Either `G <= 1e-5` or `f-fstar <= 1e-5` | Objective: `f-fstar <= 1e-5` | `fstar=sum(A)` for symmetric nonnegative A | `matrix_balancing.jl:45,100,398` |
+| Matrix factorization | Either `G <= 1e-5` or `f-fstar <= 1e-5` | Either: `G <= 1e-5` or `f-fstar <= 1e-5` | `fstar=0`, attained by planted feasible factors | `matrix_factorization.jl:83,150,368` |
+| StQO | `G <= 1e-3` | Stationarity: `G <= 1e-3` | Unknown; stored as `NaN` | `STQO.jl:80,140` |
+| Traffic | Either `G <= 1e-3` or `f-0 <= 1e-3` | Either: `G <= 1e-3` or `f-0 <= 1e-3` | Zero is a lower bound, **not** a known optimum | `traffic_assignment.jl:127,175,359` |
+| Sigmoid regression | `G <= 1e-3` | Stationarity: `G <= 1e-3` | Unknown; stored as `NaN` | `Sigmoid.jl:94,148,367` |
+| Least squares | `f-fstar <= 1e-5` only | Objective: `f-fstar <= 1e-5` | Objective at the direct least-squares solution `A\b`, including noise | `Least_Squares.jl:56–57,113,250,413` |
+| Regularized logistic regression | `g <= 1e-3` only | Stationarity: `g <= 1e-3` | Unknown; stored as `NaN` | `Logistic_Regression_with_Regularization.jl:73,138,440` |
+| Power shifted quadratic | `f-fstar <= 1e-5` only | Objective: `f-fstar <= 1e-5` | `fstar=c^p` | `Power_Shifted_Quadratic.jl:47,110,247,410` |
 
 The historical full comparison drivers selected a maximum of **100,000 iterations**, including traffic. The historical auto-conditioned report reaches 90,308 iterations, consistent with that cap. The corrected traffic experiment protocol now uses `ACGD_MAX_ITER=3000` as the default maximum iteration cap in `traffic_assignment.jl`, including the solver wrappers and run manifest. This is a protocol change; it does not retroactively alter historical results. Runs under the corrected protocol may stop before 3,000 iterations if their stopping criterion is met. Rerun the affected experiments and verify their generated manifests and stopping conditions before treating any results as corrected-protocol results.
 
