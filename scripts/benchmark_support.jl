@@ -105,7 +105,7 @@ uses `@timed` around the complete supplied call, retaining the core solver time
 separately. Allocations, garbage collection and compilation during that call are
 included. Optional `gc_before_call` collects outside the clock before every call.
 
-`order_mode=:balanced` requires complete Williams blocks (n repeats for even n,
+`order_mode=:rotate` requires complete Williams blocks (n repeats for even n,
 2n for odd n). Its
 measured Williams orders are independent of the number of warmups. Every warmup
 round calls all paths before measurement begins. The local order RNG is keyed by

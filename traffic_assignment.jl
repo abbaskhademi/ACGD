@@ -215,8 +215,9 @@ method_order = ["Adaptive constant", "Adaptive adjustable", "Pure backtracking",
                 "Open-loop"]
 
 problem_parameters = (m=15, n=10, p=0.4)
-warmups = parse(Int, get(ENV, "ACGD_WARMUPS", "2"))
-repeats = benchmark_repeats(length(method_order))
+warmups = parse(Int, get(ENV, "ACGD_WARMUPS", "1"))
+repeats = parse(Int, get(ENV, "ACGD_REPEATS", "1"))
+#repeats = parse(Int, get(ENV, "ACGD_REPEATS", "1"))
 order_seed = 20261021
 
 all_times  = Dict(name => fill(Inf, length(seeds)) for name in method_order)
@@ -236,8 +237,8 @@ write_run_manifest(joinpath(output_dir, "run_manifest.toml"), Dict(
     "method_order" => method_order,
     "execution_base_order" => ["Open-loop", "Adaptive constant", "Adaptive adjustable", "Auto-conditioned", "Pure backtracking"],
     "problem_parameters" => Dict(string(k) => v for (k, v) in pairs(problem_parameters)),
-    "execution_order" => "balanced Williams design; actual schedules saved per instance",
-    "order_mode" => "balanced", "order_seed" => order_seed,
+    "execution_order" => "rotating method order; actual schedules saved per instance",
+    "order_mode" => "rotate", "order_seed" => order_seed,
     "timing_boundary" => "external public solver call; core time also recorded",
     "gc_before_call" => true,
     "input_provenance" => "numerical instance snapshot and SHA-256 saved in each instance checkpoint",
@@ -247,7 +248,7 @@ write_run_manifest(joinpath(output_dir, "run_manifest.toml"), Dict(
     "run_controls" => Dict(name => get(ENV, name, default) for (name, default) in
         [("ACGD_OUTPUT_ROOT", joinpath(@__DIR__, "corrected_results")),
          ("ACGD_SEED_COUNT", "100"), ("ACGD_MAX_ITER", "3000"),
-         ("ACGD_TRACE_ITER", "500"), ("ACGD_WARMUPS", "2"), ("ACGD_REPEATS", string(repeats))]),
+         ("ACGD_TRACE_ITER", "500"), ("ACGD_WARMUPS", "1"), ("ACGD_REPEATS", string(repeats))]),
     "warmups" => warmups,
     "repeats" => repeats,
     "seeds" => collect(seeds),
@@ -281,7 +282,7 @@ for (idx, s) in enumerate(seeds)
     ]
     runs = benchmark_methods(calls; instance_index=idx,
         warmups=warmups, repeats=repeats, external_timing=true,
-        gc_before_call=true, order_mode=:balanced, order_seed=order_seed)
+        gc_before_call=true, order_mode=:rotate, order_seed=order_seed)
 
     for name in method_order
         r = runs[name]

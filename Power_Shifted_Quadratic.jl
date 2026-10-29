@@ -145,8 +145,8 @@ n     = 100          # instance dimension, passed explicitly to the generator
 
 gamma0 = 1/4
 alpha0 = 1e-10
-warmups = parse(Int, get(ENV, "ACGD_WARMUPS", "2"))
-repeats = parse(Int, get(ENV, "ACGD_REPEATS", "6"))
+warmups = parse(Int, get(ENV, "ACGD_WARMUPS", "1"))
+repeats = parse(Int, get(ENV, "ACGD_REPEATS", "1"))
 order_seed = 20261021
 
 method_order = ["Adaptive constant", "Adaptive adjustable", "Pure backtracking",
@@ -170,8 +170,8 @@ write_run_manifest(joinpath(output_dir, "run_manifest.toml"), Dict(
     "method_order" => method_order,
     "execution_base_order" => ["AdaBB", "Auto-conditioned", "Adaptive constant",
         "Adaptive adjustable", "Pure backtracking", "Short-step"],
-    "execution_order" => "balanced Williams design; actual schedules saved per instance",
-    "order_mode" => "balanced", "order_seed" => order_seed,
+    "execution_order" => "rotating method order; actual schedules saved per instance",
+    "order_mode" => "rotate", "order_seed" => order_seed,
     "timing_boundary" => "external public solver call; core time also recorded",
     "gc_before_call" => true,
     "smoothness_preprocessing" => "problem constants computed before solver timing",
@@ -204,7 +204,7 @@ for (idx, s) in enumerate(seeds)
     ]
     runs = benchmark_methods(calls; instance_index=idx,
         warmups=warmups, repeats=repeats, external_timing=true,
-        gc_before_call=true, order_mode=:balanced, order_seed=order_seed)
+        gc_before_call=true, order_mode=:rotate, order_seed=order_seed)
     for name in method_order
         r = runs[name]
         all_solved[name][idx] = r.solved

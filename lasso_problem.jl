@@ -181,8 +181,8 @@ for (idx, s) in enumerate(seeds)
 
     ]
     runs = benchmark_methods(calls; instance_index=idx,
-        warmups=parse(Int, get(ENV, "ACGD_WARMUPS", "1")),
-        repeats=parse(Int, get(ENV, "ACGD_REPEATS", "3")))
+        warmups = parse(Int, get(ENV, "ACGD_WARMUPS", "1")),
+        repeats = parse(Int, get(ENV, "ACGD_REPEATS", "1")))
 
     for name in method_order
         r = runs[name]

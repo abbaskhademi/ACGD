@@ -36,7 +36,7 @@ end
         expected_next = rand()
         Random.seed!(841)
         results = benchmark_methods(tracked_calls; warmups=2, repeats=repeats,
-                                    instance_index=instance, order_mode=:balanced)
+                                    instance_index=instance, order_mode=:rotate)
         @test rand() == expected_next
         orders = [results["1"].raw_repeats[i]["execution_order"] for i in 1:repeats]
         @test order[1:12] == vcat([results["1"].measurement_policy["warmup_orders"]["warmup_$i"] for i in 1:2]...)
@@ -53,12 +53,12 @@ end
             @test raw["execution_order"][raw["execution_position"]] == name
         end
         other = benchmark_methods(calls; warmups=1, repeats=repeats,
-                                  instance_index=instance, order_mode=:balanced)
+                                  instance_index=instance, order_mode=:rotate)
         @test other["1"].measurement_policy["measured_orders"] ==
               results["1"].measurement_policy["measured_orders"]
     end
-    @test_throws ArgumentError benchmark_methods(calls; repeats=3, order_mode=:balanced)
-    @test_throws ArgumentError benchmark_methods(calls[1:5]; repeats=6, order_mode=:balanced)
+    @test_throws ArgumentError benchmark_methods(calls; repeats=3, order_mode=:rotate)
+    @test_throws ArgumentError benchmark_methods(calls[1:5]; repeats=6, order_mode=:rotate)
     @test_throws ArgumentError benchmark_methods(calls; order_mode=:unknown)
 end
 

@@ -105,7 +105,7 @@ if get(ENV, "ACGD_RUN_BENCHMARKS", "true") == "true"
 # --------------------------------------------------------------------
 gamma0   = 1/4
 max_iter = parse(Int, get(ENV, "ACGD_TRACE_ITER", "500"))
-warmups = parse(Int, get(ENV, "ACGD_WARMUPS", "2"))
+warmups = parse(Int, get(ENV, "ACGD_WARMUPS", "1"))
 repeats = benchmark_repeats(3)
 order_seed = 20261022
 source_file = csv_path
@@ -133,7 +133,7 @@ write_run_manifest(joinpath(output_dir, "run_manifest.toml"), Dict(
     "source_url" => "https://raw.githubusercontent.com/cyrillewcombettes/boostfw/master/movielens100k.csv",
     "initial_data_sha256" => initial_data_sha256,
     "external_timing" => true, "gc_before_call" => true,
-    "order_mode" => "balanced", "order_seed" => order_seed,
+    "order_mode" => "rotate", "order_seed" => order_seed,
     "accepted_curvature" => "accepted L_k before eta scaling; one value per accepted step",
     "smoothness_preprocessing" => "problem constants computed before solver timing",
     "feasibility_scope" => "representative repeat checked outside solver timing",
@@ -154,7 +154,7 @@ calls = [
 ]
 runs = benchmark_methods(calls; warmups=warmups, repeats=repeats,
     instance_index=23, external_timing=true, gc_before_call=true,
-    order_mode=:balanced, order_seed=order_seed)
+    order_mode=:rotate, order_seed=order_seed)
 
 report_lines = String[]
 saved_runs = Dict{String,Any}()
