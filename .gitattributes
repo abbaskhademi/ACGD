@@ -7,3 +7,5 @@ corrected_results/power_quadratic/power_quadratic_iterations_Pure_backtracking.m
 corrected_results/power_quadratic/power_quadratic_iterations_Short_step.mat filter=lfs diff=lfs merge=lfs -text
 corrected_results/lasso/*.mat filter=lfs diff=lfs merge=lfs -text
 corrected_results/lasso/instances/*.mat filter=lfs diff=lfs merge=lfs -text
+corrected_results/NonconvexQP_Simplex/*.mat filter=lfs diff=lfs merge=lfs -text
+corrected_results/NonconvexQP_Simplex/instances/*.mat filter=lfs diff=lfs merge=lfs -text
