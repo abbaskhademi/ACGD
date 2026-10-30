@@ -1,0 +1,4 @@
+Problem: video_colocalization   L = ||A||_2 = 0.003277550499196739
+Adaptive constant     cap reached  iters=500  time=0.88s  f_last=0.098519  gap_last=0.0002033  max L_k=0.006407  mean L_k=0.004271
+Adaptive adjustable   cap reached  iters=500  time=0.42s  f_last=0.098524  gap_last=0.0002019  max L_k=0.006399  mean L_k=0.004319
+Pure backtracking     cap reached  iters=500  time=0.33s  f_last=0.098548  gap_last=0.0002337  max L_k=0.006353  mean L_k=0.004587
