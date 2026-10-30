@@ -18,7 +18,7 @@ matvarname(s) = replace(s, r"[^A-Za-z0-9_]" => "_")
 # --------------------------------------------------------------------
 # 1. Problem
 # --------------------------------------------------------------------
-data_file = joinpath(@__DIR__, "video_colocalization", "aeroplane_data_small.mat")
+data_file = joinpath(@__DIR__, "aeroplane_data_small.mat")
 if !isfile(data_file)
     Downloads.download(
         "https://raw.githubusercontent.com/cyrillewcombettes/boostfw/master/aeroplane_data_small.mat",
