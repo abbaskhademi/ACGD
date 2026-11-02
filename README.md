@@ -4,46 +4,22 @@ This repository contains the Julia code and data used in the numerical experimen
 
 The codes and data in this repository are a snapshot of the software and data that were used in the research reported in the paper.
 
-## 5. Numerical Experiments
+## Numerical Experiments
 
-The following sections identify the Julia source files corresponding to each numerical experiment.
-
-### 5.1. Lasso Problem
-- Source code: `lasso_problem.jl`
-
-### 5.2. Matrix Balancing Problem
-- Source code: `matrix_balancing.jl`
-
-### 5.3. Matrix Factorization
-- Source code: `matrix_factorization.jl`
-
-### 5.4. Simplex Quadratic Optimization Problem
-- Source code: `STQO.jl`
-
-### 5.5. Traffic Assignment
-- Source code: `traffic_assignment.jl`
-
-### 5.6. Sparse Least Squares Sigmoid Regression Problem
-- Source code: `Sigmoid.jl`
-
-### 5.7. Least Squares Problem
-- Source code: `Least_Squares.jl`
-
-### 5.8. Logistic Regression with Regularization
-- Source code: `Logistic_Regression_with_Regularization.jl`
-
-### 5.9. Power Shifted Quadratic
-- Source code: `Power_Shifted_Quadratic.jl`
-
-### 5.10. Collaborative Filtering
-- Source code: `Collaborative_Filtering.jl`
-
-### 5.11. Video Co-Localization
-- Source code: `Video_Co_Localization.jl`
-
-### 5.12. Ill-Conditioned Quadratic
-- Source code: `quadratic_adjustable_lmo.jl`
-
+| No. | Experiment | Source Code |
+|---|---|
+|  Lasso | [`lasso_problem.jl`](lasso_problem.jl) |
+|  Matrix Balancing | [`matrix_balancing.jl`](matrix_balancing.jl) |
+|  Matrix Factorization | [`matrix_factorization.jl`](matrix_factorization.jl) |
+|  Simplex Quadratic Optimization | [`STQO.jl`](STQO.jl) |
+|  Traffic Assignment | [`traffic_assignment.jl`](traffic_assignment.jl) |
+|  Sparse Least Squares Sigmoid Regression | [`Sigmoid.jl`](Sigmoid.jl) |
+|  Least Squares | [`Least_Squares.jl`](Least_Squares.jl) |
+|  Logistic Regression with Regularization | [`Logistic_Regression_with_Regularization.jl`](Logistic_Regression_with_Regularization.jl) |
+|  Power Shifted Quadratic | [`Power_Shifted_Quadratic.jl`](Power_Shifted_Quadratic.jl) |
+|  Collaborative Filtering | [`Collaborative_Filtering.jl`](Collaborative_Filtering.jl) |
+|  Video Co-Localization | [`Video_Co_Localization.jl`](Video_Co_Localization.jl) |
+|  Ill-Conditioned Quadratic | [`quadratic_adjustable_lmo.jl`](quadratic_adjustable_lmo.jl) |
 ## How to Run
 
 Clone the repository and navigate to its root directory:
