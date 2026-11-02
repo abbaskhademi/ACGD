@@ -3,14 +3,14 @@ architecture = "x86_64"
 blas_configuration = "LBTConfig([ILP64] libopenblas64_.dll)"
 blas_threads = 6
 cpu_name = "skylake-avx512"
-created_utc = "2026-10-30T17:54:58.588"
+created_utc = "2026-11-02T20:23:59.237"
 failure_policy = "any failed measured repeat makes the method unsuccessful"
 julia_threads = 1
 julia_version = "1.11.6"
 kernel = "NT"
 manifest_sha256 = "7dee7ee8349cff5b00fcb52d6ba10994860b4f948a4a6cdc91c08b5d44f4c433"
 source_dirty = true
-source_revision = "eeb9ded08e08ad314b7d1566604b51d508c131a9"
+source_revision = "5243513d95e6463a515e8d19bd06dd335bad1169"
 timing_convention = "complete solver elapsed, including initialization, stopping and in-memory histories"
 word_size = 64
 
@@ -46,7 +46,6 @@ warmups = 1
 
 [input_file_sha256]
 "movielens100k.csv" = "d3ffa486bbdd679df868428cbbf56468d180936d1c92521d8d570e4eaaf6bdca"
-"video_colocalization/aeroplane_data_small.mat" = "c45527c33ef3d0016b6f8df29e69c3cb9f823cbcfa45a58a0042a5928789eb95"
 
 [package_versions]
 ADTypes = "1.24.0"
@@ -445,9 +444,9 @@ status = "loaded"
 "Project.toml" = "c579a2845c04a81235001aeff54736bb15ea790c3fb0086ea5fa8d20b2d0f1c1"
 "STQO.jl" = "123e22514cdb018104128f40c3eab0fa43cf1b92099890ffb37a0c39e428ea7b"
 "Sigmoid.jl" = "0634bf7b1c82b8203766c357f641ef0e7c03f5cd467b0fe3b66f5d1a34a2075f"
-"Video_Co_Localization.jl" = "9723cf9d2ba15c0b9272a7e10990bc3b900d523aab6eeb9573cce1ec8e8fd6a3"
+"Video_Co_Localization.jl" = "c52d97455f119e8adfab2258e434d178dbad776015ffafed754526e93fd90f9a"
 "docs\\backtracking_candidates.toml" = "76b6a0333fd6f70c1f3408fc977d1b6eb58f55ff08ae64dc156ea4a1ceb1c68f"
-"lasso_problem.jl" = "50217c47e96e6ab3fac45c38bb5e293f4ba3071877235ecdab8950364239dc88"
+"lasso_problem.jl" = "553314fccbc9b3e221f67466cd4c1f24f9620ee13c57e16a9905178f0e379018"
 "matrix_balancing.jl" = "f5065707632657d843edc341796a47c488b59a0760de85985b5b96ffba39fca7"
 "matrix_factorization.jl" = "9150a8bd23d601175ad8bd927d45ef0d4f972436cfd961a3781658aaa3776ee5"
 "quadratic_adjustable_lmo.jl" = "e336c0ba2cc4f558c54e10e084b247073fc0eb3884be5d0a32734ae3c5a683c6"
