@@ -6,7 +6,7 @@ The codes and data in this repository are a snapshot of the software and data th
 
 ## Numerical Experiments
 
-| No. | Experiment | Source Code |
+|  Experiment | Source Code |
 |---|---|
 |  Lasso | [`lasso_problem.jl`](lasso_problem.jl) |
 |  Matrix Balancing | [`matrix_balancing.jl`](matrix_balancing.jl) |
